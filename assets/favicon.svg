@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="S">
   <title>Suraj Plachikaad Suresh Kumar</title>
-  <rect width="64" height="64" rx="14" fill="#1f3a5f"/>
+  <rect width="64" height="64" rx="6" fill="#1B1A17"/>
   <!-- An S-curve that doubles as a winding road — drawn as a path rather than
        text so it renders identically everywhere, regardless of fonts. -->
   <path d="M45 15 C25 15, 25 29, 32 32 C39 35, 39 49, 19 49"
-        fill="none" stroke="#ffffff" stroke-width="7"
+        fill="none" stroke="#C9A227" stroke-width="6.5"
         stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

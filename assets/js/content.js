@@ -64,16 +64,18 @@ const SITE = {
       { value: 2,  suffix: "",  label: "Degrees" },
     ],
 
+    /* `icon` names a line icon drawn in main.js (HOBBY_ICON): hiking,
+       bouldering, cooking, swimming, tv. Shown only when `img` is empty. */
     hobbies: [
-      { icon: "🥾", title: "Hiking",     img: "images/hiking.jpg",
+      { icon: "hiking", title: "Hiking",     img: "images/hiking.jpg",
         text: "Chasing ridgelines and big views — the longer the trail, the better. Long routes are where I do my best thinking: no notifications, just one foot in front of the other until a problem untangles itself." },
-      { icon: "🧗", title: "Bouldering", img: "images/boulder.jpg",
+      { icon: "bouldering", title: "Bouldering", img: "images/boulder.jpg",
         text: "Reading a route like a puzzle, then solving it move by move. It's the closest physical thing to debugging — you fail, change one variable, and try again." },
-      { icon: "👨‍🍳", title: "Cooking",  img: "images/food.jpg",
+      { icon: "cooking", title: "Cooking",  img: "images/food.jpg",
         text: "Reverse-engineering flavours and plating new dishes — my edible R&D. Every dish is iteration under constraints: fixed ingredients, fixed time, taste and adjust." },
-      { icon: "🏊", title: "Swimming",   img: "",
+      { icon: "swimming", title: "Swimming",   img: "",
         text: "Laps to reset the mind — my favourite kind of deep focus. Nothing to read, nothing to answer, just count and breathe." },
-      { icon: "📺", title: "Watching TV", img: "",
+      { icon: "tv", title: "Watching TV", img: "",
         text: "A devoted binge-watcher with a soft spot for clever storytelling. Good structure is good structure, whether it's a plot or a system architecture." },
     ],
 

@@ -22,10 +22,43 @@ function toggleTheme(){
   try { localStorage.setItem("theme", next); } catch(e) {}
   syncThemeBtn();
 }
+/* Line icons rather than emoji — emoji render differently on every platform
+   and read as decoration next to the serif type. */
+const ICON = {
+  sun: `<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+     stroke-width="1.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+     <circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.3M12 19.2v2.3M2.5 12h2.3M19.2 12h2.3
+     M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/></svg>`,
+  moon: `<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+     focusable="false"><path d="M20.6 14.7A8.7 8.7 0 0 1 9.3 3.4a8.7 8.7 0 1 0 11.3 11.3z"/></svg>`,
+};
+
+/* Hobby icons, drawn in the same line style as the theme toggle.
+   Referenced from content.js by key: icon: "hiking". */
+const HOBBY_ICON = {
+  hiking: `<path d="M2.5 19.5h19M4.5 19.5 10 8.5l3.2 5.8 2.1-3.3 5.2 8.5"/><circle cx="17.5" cy="5" r="2.1"/>`,
+  bouldering: `<path d="M3.5 19.5c0-7 4.3-11.5 8.5-11.5s8.5 4.5 8.5 11.5z"/><path d="M2 19.5h20"/>
+    <circle cx="9.5" cy="14" r="1.05"/><circle cx="14.5" cy="12" r="1.05"/><circle cx="12" cy="17" r="1.05"/>`,
+  cooking: `<path d="M3.5 10.5h17v2.9a6 6 0 0 1-6 6H9.5a6 6 0 0 1-6-6z"/>
+    <path d="M3.5 12.6H1.9M20.5 12.6h1.6"/>
+    <path d="M9.2 7.6c0-1.3 1.3-1.5 1.3-2.8M12.7 7.6c0-1.6 1.4-1.8 1.4-3.2"/>`,
+  swimming: `<circle cx="16.5" cy="6.5" r="2"/><path d="M4 12.5l5-2.4 4.6 1.9"/>
+    <path d="M2 16.6c2 0 2-1.3 4-1.3s2 1.3 4 1.3 2-1.3 4-1.3 2 1.3 4 1.3 2-1.3 4-1.3"/>
+    <path d="M2 20.4c2 0 2-1.3 4-1.3s2 1.3 4 1.3 2-1.3 4-1.3 2 1.3 4 1.3 2-1.3 4-1.3"/>`,
+  tv: `<rect x="2.6" y="6.2" width="18.8" height="12.2" rx="1.6"/>
+    <path d="M8.4 21.6h7.2M12 18.4v3.2M8.2 2.6 12 6.2l3.8-3.6"/>`,
+};
+const hobbyIcon = key => HOBBY_ICON[key]
+  ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+       focusable="false">${HOBBY_ICON[key]}</svg>`
+  : "";
+
 function syncThemeBtn(){
   const b = document.getElementById("themeBtn"); if (!b) return;
   const dark = document.documentElement.getAttribute("data-theme") === "dark";
-  b.textContent = dark ? "☀️" : "🌙";
+  b.innerHTML = dark ? ICON.sun : ICON.moon;
   b.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
 }
 function toggleMenu(btn){
@@ -110,8 +143,8 @@ function renderHome(){
 
   document.getElementById("hobbies").innerHTML = h.hobbies.map(o =>
     `<div class="card hobby reveal">
-      ${o.img ? img(o.img, o.title, "hobby-img") : `<div class="icon" aria-hidden="true">${o.icon}</div>`}
-      <h3><span aria-hidden="true">${o.icon}</span> ${esc(o.title)}</h3>
+      ${o.img ? img(o.img, o.title, "hobby-img") : `<div class="icon">${hobbyIcon(o.icon)}</div>`}
+      <h3>${esc(o.title)}</h3>
       <p class="muted">${esc(o.text)}</p></div>`).join("");
 
   const g = document.getElementById("gallery");

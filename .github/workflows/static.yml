@@ -2,16 +2,17 @@
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting any of these branches.
+  # Runs on pushes targeting the default branch.
   #
-  # NOTE: a repository has only ONE GitHub Pages site. Whichever branch
-  # pushes last becomes the live site — this is not a per-branch preview
-  # URL. Once the review branch is merged, remove it from this list so a
-  # stray push to a stale branch can't overwrite the published site.
+  # Deploy ONLY from the default branch. Pages publishes a single site from
+  # a single permitted source: a deployment from any other branch is never
+  # accepted, but it is not rejected either — it sits queued until
+  # actions/deploy-pages times out after ~10 minutes. Because the job holds
+  # the "pages" concurrency group below with cancel-in-progress: false, that
+  # stuck run also blocks every later run, including master's. One branch
+  # push can therefore stall deployments entirely until it is cancelled.
   push:
-    branches:
-      - "master"
-      - "claude/portfolio-profile-review-tzufxk"
+    branches: ["master"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

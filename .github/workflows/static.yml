@@ -2,9 +2,16 @@
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes targeting any of these branches.
+  #
+  # NOTE: a repository has only ONE GitHub Pages site. Whichever branch
+  # pushes last becomes the live site — this is not a per-branch preview
+  # URL. Once the review branch is merged, remove it from this list so a
+  # stray push to a stale branch can't overwrite the published site.
   push:
-    branches: ["master"]
+    branches:
+      - "master"
+      - "claude/portfolio-profile-review-tzufxk"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

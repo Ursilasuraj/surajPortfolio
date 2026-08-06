@@ -245,29 +245,45 @@ const SITE = {
   /* =================================================================
      PATENTS
      -----------------------------------------------------------------
-     ⚠️  EMPTY — ADD YOUR PATENTS HERE.
-     The page, styling and navigation are already built; it shows a
-     friendly "coming soon" note until you fill this array in.
+     Every field except `title` is optional and is simply hidden if you
+     leave it out or set it to "".
 
-     Copy the commented block below for each patent. Only `title` is
-     required — every other field is optional and simply hidden if
-     you leave it out or set it to "".
+       title       Patent title as filed
+       number      Patent / publication number
+       office      USPTO, EPO, DPMA, WIPO …
+       year        Grant or publication year
+       filed       e.g. "Filed Nov 2019"
+       status      "Granted", "Pending", "Published"
+       assignee    Company the patent is assigned to
+       coInventors e.g. "with Jane Doe" — credit your co-inventors
+       link        Google Patents / Espacenet URL
+       art         Illustration: "lidar", "map" or "cloud" (see main.js)
+       plain       ONE jargon-free sentence. This is the field that makes
+                   the page readable for non-engineers — worth writing.
 
-       {
-         title:  "Method for determining vehicle position without GNSS",
-         number: "DE102019123456A1",       // patent / publication number
-         year:   "2021",                   // grant or publication year
-         office: "DPMA",                   // DPMA, EPO, USPTO, WIPO …
-         status: "Granted",                // or "Pending", "Published"
-         link:   "https://patents.google.com/patent/DE102019123456A1",
-         plain:  "A way for a car to know which lane it is in when the " +
-                 "GPS signal drops out, such as inside a tunnel.",
-       },
-
-     `plain` is the one-line, jargon-free summary — it is what makes the
-     page readable for non-engineers, so it is worth writing.
+     ⚠️  VERIFY BEFORE SHARING: the entry below was reconstructed from
+     public patent databases, not from your own records. Please check
+     the number, dates and co-inventor spelling. If you hold further
+     patents, copy the block and add them.
      ================================================================= */
-  patents: [],
+  patents: [
+    {
+      title:       "Location-based radar, LiDAR and GCP data",
+      number:      "US 12,181,308 B2",
+      office:      "USPTO",
+      year:        "2024",
+      filed:       "Filed Nov 2019",
+      status:      "Granted",
+      assignee:    "ZF Friedrichshafen AG",
+      coInventors: "with Mithun Sreekumar",
+      link:        "https://patents.google.com/patent/US12181308B2/en",
+      art:         "lidar",
+      plain:
+        "The vehicle tells a server where it is, and the server sends back just " +
+        "the sensor reference data for that stretch of road — radar, LiDAR and " +
+        "ground-control-point data — instead of the car carrying an entire map on board.",
+    },
+  ],
 
   /* =================================================================
      SKILLS

@@ -290,6 +290,79 @@ function renderSkills(){
   observeReveal();
 }
 
+/* ---- Patent artwork -------------------------------------------------
+   Hand-drawn SVG rather than photos: patent figures aren't ours to host,
+   and stock imagery would say nothing. Everything is stroked/filled with
+   currentColor, so the accent colour follows the light/dark theme.
+   Pick one per patent with `art: "lidar" | "map" | "cloud"`.        */
+const PATENT_ART = {
+  // A vehicle scanning its surroundings while receiving data from a server.
+  lidar: `
+    <g fill="none" stroke="currentColor" stroke-linecap="round" opacity=".38">
+      <path d="M116 122 A 90 90 0 0 1 296 122" stroke-width="2"/>
+      <path d="M142 122 A 64 64 0 0 1 270 122" stroke-width="2"/>
+      <path d="M168 122 A 38 38 0 0 1 244 122" stroke-width="2"/>
+    </g>
+    <g fill="currentColor" opacity=".5">
+      <circle cx="116" cy="122" r="2.6"/><circle cx="132" cy="82" r="2.6"/>
+      <circle cx="168" cy="52" r="2.6"/><circle cx="206" cy="32" r="2.6"/>
+      <circle cx="252" cy="48" r="2.6"/><circle cx="286" cy="86" r="2.6"/>
+      <circle cx="296" cy="122" r="2.6"/><circle cx="244" cy="84" r="2.2"/>
+      <circle cx="170" cy="88" r="2.2"/>
+    </g>
+    <g fill="currentColor" opacity=".9">
+      <circle cx="52" cy="44" r="11"/><circle cx="68" cy="36" r="15"/>
+      <circle cx="86" cy="44" r="10"/><rect x="48" y="45" width="44" height="11" rx="5.5"/>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-dasharray="4 6" opacity=".55">
+      <path d="M92 60 C 124 82, 146 96, 172 108"/>
+      <path d="M84 62 C 112 88, 132 102, 158 114"/>
+    </g>
+    <g fill="currentColor">
+      <rect x="176" y="108" width="62" height="15" rx="6"/>
+      <path d="M189 108 l8 -11 h20 l10 11 z"/>
+      <circle cx="191" cy="125" r="5.5"/><circle cx="224" cy="125" r="5.5"/>
+    </g>
+    <path d="M40 134 H 360" stroke="currentColor" stroke-width="2" opacity=".25" stroke-linecap="round"/>`,
+
+  // A route traced across a map grid.
+  map: `
+    <g stroke="currentColor" opacity=".22" stroke-width="1.5">
+      <path d="M40 30 H360 M40 65 H360 M40 100 H360 M40 135 H360"/>
+      <path d="M80 20 V145 M140 20 V145 M200 20 V145 M260 20 V145 M320 20 V145"/>
+    </g>
+    <path d="M70 130 C 130 130, 120 70, 180 68 C 240 66, 236 34, 320 40"
+          fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+    <g fill="currentColor">
+      <circle cx="70" cy="130" r="7"/>
+      <path d="M320 26 a13 13 0 0 1 13 13 c0 10 -13 22 -13 22 s-13 -12 -13 -22 a13 13 0 0 1 13 -13z"/>
+      <circle cx="320" cy="39" r="4.5" fill="#fff" opacity=".9"/>
+    </g>`,
+
+  // Map data streaming from the cloud down to a vehicle.
+  cloud: `
+    <g fill="currentColor" opacity=".9">
+      <circle cx="170" cy="46" r="16"/><circle cx="196" cy="34" r="22"/>
+      <circle cx="224" cy="46" r="15"/><rect x="164" y="46" width="66" height="16" rx="8"/>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".55">
+      <path d="M180 74 V 96" stroke-dasharray="5 6"/>
+      <path d="M200 74 V 104" stroke-dasharray="5 6"/>
+      <path d="M220 74 V 96" stroke-dasharray="5 6"/>
+    </g>
+    <g fill="currentColor">
+      <rect x="166" y="112" width="70" height="16" rx="6"/>
+      <path d="M180 112 l9 -12 h22 l11 12 z"/>
+      <circle cx="182" cy="130" r="6"/><circle cx="219" cy="130" r="6"/>
+    </g>
+    <path d="M60 140 H 340" stroke="currentColor" stroke-width="2" opacity=".25" stroke-linecap="round"/>`,
+};
+
+const patentArt = key => PATENT_ART[key]
+  ? `<div class="patent-art"><svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-hidden="true" focusable="false">${PATENT_ART[key]}</svg></div>`
+  : "";
+
 /* ---- Patents ---- */
 function renderPatents(){
   const el = SITE.patents || [];
@@ -307,18 +380,18 @@ function renderPatents(){
   }
 
   list.innerHTML = el.map(p => {
-    const bits = [p.number, p.office, p.year].filter(Boolean).map(esc).join(" · ");
+    const bits = [p.number, p.office, p.year, p.filed].filter(Boolean).map(esc).join(" · ");
+    const credit = [p.assignee, p.coInventors].filter(Boolean).map(esc).join(" · ");
     const title = p.link
       ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>`
       : esc(p.title);
     return `<div class="card patent reveal">
-      <div class="patent-head">
-        <span class="thumb tile" aria-hidden="true">⚖︎</span>
-        ${p.status ? `<span class="tag status">${esc(p.status)}</span>` : ""}
-      </div>
+      ${patentArt(p.art)}
+      ${p.status ? `<span class="tag status">${esc(p.status)}</span>` : ""}
       <h3>${title}</h3>
       ${bits ? `<div class="meta muted">${bits}</div>` : ""}
       ${p.plain ? `<p class="patent-plain">${esc(p.plain)}</p>` : ""}
+      ${credit ? `<div class="patent-credit muted">${credit}</div>` : ""}
     </div>`;
   }).join("");
 

@@ -193,8 +193,13 @@ code { background: var(--surface); border: 1px solid var(--border); border-radiu
 .meter .step.on { background:var(--accent); }
 
 /* ---------- Patents ---------- */
-.patent-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+/* The SVG inherits `color`, so the artwork follows the theme accent. */
+.patent-art { color:var(--accent); background:linear-gradient(135deg,var(--bg),var(--border));
+  border:1px solid var(--border); border-radius:10px; padding:6px; margin-bottom:16px; }
+.patent-art svg { display:block; width:100%; height:auto; }
+.patent .tag.status { display:inline-block; margin-bottom:10px; }
 .patent h3 { margin:0 0 4px; font-size:1.1rem; }
+.patent-credit { font-size:.88rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
 .patent h3 a { color:var(--text); text-decoration:none; border-bottom:2px solid var(--accent); }
 .patent h3 a:hover { color:var(--accent); }
 .patent-plain { margin:10px 0 0; }

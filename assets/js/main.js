@@ -1,146 +1,326 @@
 /* =====================================================================
    main.js — renders content from content.js and handles theme + nav.
-   You normally don't need to edit this file.
+   You normally don't need to edit this file; edit content.js instead.
    ===================================================================== */
 
-/* ---- Theme toggle (remembers choice) ---- */
-(function initTheme(){
-  const saved = localStorage.getItem("theme") || "light";
-  document.documentElement.setAttribute("data-theme", saved);
-})();
+/* ---- Small helpers ---------------------------------------------------
+   esc() keeps stray quotes/angle brackets in content.js from breaking
+   the generated markup (e.g. a job title containing an apostrophe).   */
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+
+const prefersReducedMotion = () =>
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+/* ---- Theme toggle (remembers choice) ----
+   The initial theme is applied by a tiny inline script in each page's
+   <head> so there is no flash of the wrong theme before this file loads. */
 function toggleTheme(){
-  const cur = document.documentElement.getAttribute("data-theme");
+  const cur  = document.documentElement.getAttribute("data-theme");
   const next = cur === "dark" ? "light" : "dark";
   document.documentElement.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
-  const b = document.getElementById("themeBtn"); if (b) b.textContent = next === "dark" ? "☀️" : "🌙";
+  try { localStorage.setItem("theme", next); } catch(e) {}
+  syncThemeBtn();
 }
-function toggleMenu(){ document.querySelector(".nav-links")?.classList.toggle("open"); }
+function syncThemeBtn(){
+  const b = document.getElementById("themeBtn"); if (!b) return;
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  b.textContent = dark ? "☀️" : "🌙";
+  b.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+}
+function toggleMenu(btn){
+  const open = document.querySelector(".nav-links")?.classList.toggle("open");
+  btn?.setAttribute("aria-expanded", String(!!open));
+}
 
 /* ---- Build header/footer + mark active link ---- */
 function buildChrome(active){
-  const page = (p, label) => `<a href="${p}" class="${active===p?'active':''}">${label}</a>`;
+  const page = (p, label) =>
+    `<a href="${p}"${active===p ? ' class="active" aria-current="page"' : ""}>${label}</a>`;
+
   document.getElementById("header").innerHTML = `
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="wrap nav">
       <a class="brand" href="index.html">Suraj <span>Plachikaad</span></a>
-      <button class="menu-btn" onclick="toggleMenu()">☰</button>
-      <nav class="nav-links">
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false"
+              aria-controls="navLinks" onclick="toggleMenu(this)">☰</button>
+      <nav id="navLinks" class="nav-links" aria-label="Main">
         ${page("index.html","Home")} ${page("experience.html","Experience")}
         ${page("education.html","Education")} ${page("skills.html","Skills")}
+        ${page("patents.html","Patents")}
         <button id="themeBtn" class="toggle" onclick="toggleTheme()"></button>
       </nav>
     </div>`;
-  document.getElementById("themeBtn").textContent =
-    document.documentElement.getAttribute("data-theme")==="dark" ? "☀️" : "🌙";
+  syncThemeBtn();
 
-  const links = [SITE.email?`<a href="mailto:${SITE.email}">Email</a>`:"",
-    SITE.linkedin?`<a href="${SITE.linkedin}" target="_blank">LinkedIn</a>`:"",
-    SITE.github?`<a href="${SITE.github}" target="_blank">GitHub</a>`:""].filter(Boolean).join(" · ");
+  const links = [
+    SITE.email    ? `<a href="mailto:${esc(SITE.email)}">Email</a>` : "",
+    SITE.linkedin ? `<a href="${esc(SITE.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : "",
+    SITE.github   ? `<a href="${esc(SITE.github)}" target="_blank" rel="noopener">GitHub</a>` : "",
+  ].filter(Boolean).join(" · ");
+
   document.getElementById("footer").innerHTML =
-    `<div class="wrap">© ${new Date().getFullYear()} ${SITE.name} · ${links}</div>`;
+    `<div class="wrap">© ${new Date().getFullYear()} ${esc(SITE.name)} · ${links}</div>`;
 }
 
-const img = (src,alt,cls,ph) => src
-  ? `<img src="${src}" alt="${alt}" class="${cls}">`
-  : `<div class="placeholder-photo">${ph||"Add a photo in /images and set it in content.js"}</div>`;
+/* ---- Images -----------------------------------------------------------
+   Every generated <img> is lazy-loaded and decoded off the main thread.
+   The rendered box size is fixed in CSS, so there is no layout shift.  */
+const img = (src, alt, cls, ph, eager) => src
+  ? `<img src="${esc(src)}" alt="${esc(alt)}"${cls ? ` class="${cls}"` : ""}
+      ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`
+  : `<div class="placeholder-photo">${esc(ph || "Add a photo in /images and set it in content.js")}</div>`;
+
+/* Company / school monogram. Rendered locally — no external service. */
+const monogram = label => String(label || "•").replace(/_/g, "-");
+
+function logoThumb(label){
+  const text = monogram(label);
+  const cls  = text.length > 2 ? "thumb tile sm" : "thumb tile";
+  return `<span class="${cls}" aria-hidden="true">${esc(text)}</span>`;
+}
 
 /* ---- Home ---- */
 function renderHome(){
-  const h=SITE.home;
-  document.getElementById("hero").innerHTML=`
-    <div class="hero-text reveal"><h1>${h.heading}</h1><p class="tagline">${SITE.tagline}</p>
-      <p>${h.intro}</p><a class="btn" href="experience.html">See my work →</a></div>
-    <div class="hero-photo reveal">${img(h.photo,SITE.name,"","Add Profile.JPG")}</div>`;
+  const h = SITE.home;
 
-  if(h.stats?.length) document.getElementById("stats").innerHTML=h.stats.map(s=>
-    `<div class="stat"><span class="num" data-to="${s.value}" data-suf="${s.suffix||''}">0</span><span class="lbl">${s.label}</span></div>`).join("");
+  document.getElementById("hero").innerHTML = `
+    <div class="hero-text reveal">
+      <h1>${esc(h.heading)}</h1>
+      <p class="tagline">${esc(SITE.tagline)}</p>
+      <p>${esc(h.intro)}</p>
+      <p class="hero-cta">
+        <a class="btn" href="experience.html">See my work →</a>
+        ${SITE.cvUrl ? `<a class="btn btn-ghost" href="${esc(SITE.cvUrl)}" download>Download CV</a>` : ""}
+      </p>
+    </div>
+    <div class="hero-photo reveal">${img(h.photo, `Portrait of ${SITE.name}`, "", "Add profile.jpg", true)}</div>`;
 
-  document.getElementById("hobbies").innerHTML=h.hobbies.map(o=>
-    `<div class="card hobby reveal">${o.img?`<img class="hobby-img" src="${o.img}" alt="${o.title}">`:`<div class="icon">${o.icon}</div>`}
-      <h3>${o.icon} ${o.title}</h3><p class="muted">${o.text}</p></div>`).join("");
+  // "What I'm working on now" — keeps the site from looking abandoned.
+  const now = document.getElementById("now");
+  if (now && h.now?.text){
+    now.innerHTML = `<div class="now-card reveal">
+        <span class="now-tag">Now · ${esc(h.now.updated)}</span>
+        <p>${esc(h.now.text)}</p></div>`;
+  } else if (now) { now.closest("section")?.remove(); }
 
-  const g=document.getElementById("gallery");
-  if(h.gallery?.length) g.innerHTML=h.gallery.map(s=>`<img src="${s}" alt="" class="reveal" onclick="lightbox('${s}')">`).join("");
-  else g.closest("section").style.display="none";
+  if (h.stats?.length) document.getElementById("stats").innerHTML = h.stats.map(s =>
+    `<div class="stat"><span class="num" data-to="${s.value}" data-suf="${esc(s.suffix||"")}">0</span>
+      <span class="lbl">${esc(s.label)}</span></div>`).join("");
 
-  animateStats(); observeReveal();
+  document.getElementById("hobbies").innerHTML = h.hobbies.map(o =>
+    `<div class="card hobby reveal">
+      ${o.img ? img(o.img, o.title, "hobby-img") : `<div class="icon" aria-hidden="true">${o.icon}</div>`}
+      <h3><span aria-hidden="true">${o.icon}</span> ${esc(o.title)}</h3>
+      <p class="muted">${esc(o.text)}</p></div>`).join("");
+
+  const g = document.getElementById("gallery");
+  if (h.gallery?.length){
+    g.innerHTML = h.gallery.map((item, i) => {
+      const o = typeof item === "string" ? { src:item, alt:"" } : item;
+      return `<button class="gallery-item reveal" data-i="${i}" aria-label="Enlarge photo: ${esc(o.alt)}">
+        ${img(o.src, o.alt)}</button>`;
+    }).join("");
+    g.addEventListener("click", e => {
+      const b = e.target.closest(".gallery-item"); if (!b) return;
+      const o = h.gallery[+b.dataset.i];
+      lightbox(typeof o === "string" ? o : o.src, typeof o === "string" ? "" : o.alt, b);
+    });
+  } else { g.closest("section").style.display = "none"; }
+
+  // Contact CTA
+  const c = document.getElementById("contact");
+  if (c) c.innerHTML = `<div class="contact-card reveal">
+      <h2>Let's talk</h2>
+      <p class="muted">Always happy to talk product, autonomous driving, or where to eat in Stuttgart.</p>
+      <p class="hero-cta">
+        ${SITE.email ? `<a class="btn" href="mailto:${esc(SITE.email)}">${esc(SITE.email)}</a>` : ""}
+        ${SITE.linkedin ? `<a class="btn btn-ghost" href="${esc(SITE.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>` : ""}
+      </p></div>`;
+
+  observeReveal();
+  observeStats();
 }
 
-/* ---- Animated counters ---- */
-function animateStats(){
-  document.querySelectorAll(".num").forEach(el=>{
-    const to=+el.dataset.to, suf=el.dataset.suf; let n=0;
-    const step=Math.max(1,Math.ceil(to/40));
-    const t=setInterval(()=>{ n+=step; if(n>=to){n=to;clearInterval(t);} el.textContent=n+suf; }, 35);
-  });
+/* ---- Animated counters (start when scrolled into view) ---- */
+function observeStats(){
+  const nums = document.querySelectorAll(".num");
+  if (!nums.length) return;
+
+  if (prefersReducedMotion()){                       // no animation: show final value
+    nums.forEach(el => el.textContent = el.dataset.to + el.dataset.suf);
+    return;
+  }
+  const run = el => {
+    const to = +el.dataset.to, suf = el.dataset.suf, dur = 900, t0 = performance.now();
+    const tick = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))) + suf;   // ease-out
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => { if (e.isIntersecting){ run(e.target); obs.unobserve(e.target); } });
+  }, { threshold: .4 });
+  nums.forEach(el => io.observe(el));
 }
 
-/* ---- Click image to enlarge ---- */
-function lightbox(src){
-  const o=document.createElement("div"); o.className="lb"; o.onclick=()=>o.remove();
-  o.innerHTML=`<img src="${src}" alt="">`; document.body.appendChild(o);
+/* ---- Click image to enlarge (Escape closes, focus is restored) ---- */
+function lightbox(src, alt, opener){
+  const prev = opener || document.activeElement;
+  const o = document.createElement("div");
+  o.className = "lb";
+  o.setAttribute("role", "dialog");
+  o.setAttribute("aria-modal", "true");
+  o.setAttribute("aria-label", alt || "Enlarged photo");
+  o.innerHTML = `<button class="lb-close" aria-label="Close">✕</button>
+                 <img src="${esc(src)}" alt="${esc(alt || "")}">`;
+
+  const close = () => {
+    o.remove();
+    document.removeEventListener("keydown", onKey);
+    prev?.focus?.();
+  };
+  const onKey = e => {
+    if (e.key === "Escape") close();
+    if (e.key === "Tab") { e.preventDefault(); btn.focus(); }  // only one control: trap here
+  };
+
+  o.addEventListener("click", e => { if (e.target === o || e.target.closest(".lb-close")) close(); });
+  document.addEventListener("keydown", onKey);
+  document.body.appendChild(o);
+  const btn = o.querySelector(".lb-close");
+  btn.focus();
 }
 
 /* ---- Reveal on scroll ---- */
 function observeReveal(){
-  const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("in")),{threshold:.12});
-  document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+  const els = document.querySelectorAll(".reveal:not(.in)");
+  if (prefersReducedMotion() || !("IntersectionObserver" in window)){
+    els.forEach(el => el.classList.add("in"));       // show everything immediately
+    return;
+  }
+  const io = new IntersectionObserver(es => es.forEach(e =>
+    e.isIntersecting && e.target.classList.add("in")), { threshold: .12 });
+
+  els.forEach(el => {
+    // Anything already scrolled past (e.g. the browser restored the scroll
+    // position on reload) will never intersect again — show it straight away
+    // instead of leaving it stranded at opacity:0.
+    if (el.getBoundingClientRect().bottom < 0) el.classList.add("in");
+    else io.observe(el);
+  });
 }
 
 /* ---- Experience: interactive zig-zag timeline ---- */
-const COMPANY_BADGE = c =>
-  /vector/i.test(c) ? "🟥" : /zf/i.test(c) ? "🟦" : /abb/i.test(c) ? "🟧" :
-  /honeywell/i.test(c) ? "🟨" : /darmstadt|university/i.test(c) ? "🎓" : "💼";
-const startYear = p => (p.match(/\d{4}/)||["•"])[0];
-
-// Logo thumbnail with themed-tile fallback if the logo fails to load
-function logoThumb(domain, badge){
-  if(!domain) return `<div class="thumb tile">${badge}</div>`;
-  return `<div class="thumb"><img src="https://logo.clearbit.com/${domain}" alt=""
-    onerror="this.parentNode.classList.add('tile');this.parentNode.textContent='${badge}'"></div>`;
-}
+const startYear = p => (String(p).match(/\d{4}/) || ["•"])[0];
 
 function renderExperience(){
-  document.getElementById("list").innerHTML=SITE.experience.map((e,i)=>{
-    const badge=COMPANY_BADGE(e.company);
-    return `<div class="xp ${i%2?'right':'left'} reveal">
-      <div class="xp-node"><span>${badge}</span></div>
-      <div class="xp-year">${startYear(e.period)}</div>
-      <div class="xp-card" onclick="this.classList.toggle('open')">
+  document.getElementById("list").innerHTML = SITE.experience.map((e, i) => {
+    const id = `xpb-${i}`;
+    const open = i < 2;                              // first two roles start expanded
+    const hasBody = e.bullets.length > 0;
+    return `<div class="xp ${i % 2 ? "right" : "left"} reveal">
+      <div class="xp-node${monogram(e.logo).length > 2 ? " sm" : ""}" aria-hidden="true"><span>${esc(monogram(e.logo))}</span></div>
+      <div class="xp-year" aria-hidden="true">${startYear(e.period)}</div>
+      <div class="xp-card${open ? " open" : ""}">
         <div class="xp-head">
-          ${logoThumb(e.logo,badge)}
-          <h3>${e.role}</h3>
-          <span class="xp-toggle">＋</span>
+          ${logoThumb(e.logo)}
+          <h3 class="xp-title">${hasBody
+            ? `<button class="xp-trigger" aria-expanded="${open}" aria-controls="${id}">
+                 <span>${esc(e.role)}</span>
+                 <span class="xp-toggle" aria-hidden="true">${open ? "−" : "+"}</span>
+               </button>`
+            : esc(e.role)}</h3>
         </div>
-        <div class="meta">${e.company} · ${e.period} · ${e.location}</div>
-        ${e.headline?`<p class="xp-headline">${e.headline}</p>`:""}
-        ${e.bullets.length?`<ul class="xp-body">${e.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>`:""}
+        <div class="meta">${esc(e.company)} · ${esc(e.period)} · ${esc(e.location)}</div>
+        ${e.headline ? `<p class="xp-headline">${esc(e.headline)}</p>` : ""}
+        ${hasBody ? `<div class="xp-body" id="${id}"><ul>${
+          e.bullets.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}
       </div></div>`;
   }).join("");
-  // open the first two
-  document.querySelectorAll(".xp-card").forEach((c,i)=>{ if(i<2)c.classList.add("open"); });
+
+  document.getElementById("list").addEventListener("click", ev => {
+    const t = ev.target.closest(".xp-trigger"); if (!t) return;
+    const card = t.closest(".xp-card");
+    const open = card.classList.toggle("open");
+    t.setAttribute("aria-expanded", String(open));
+    t.querySelector(".xp-toggle").textContent = open ? "−" : "+";
+  });
+
   observeReveal();
 }
 
 /* ---- Education ---- */
 function renderEducation(){
-  document.getElementById("list").innerHTML=SITE.education.map(e=>
+  document.getElementById("list").innerHTML = SITE.education.map(e =>
     `<div class="card edu reveal">
-      <div class="edu-head">${logoThumb(e.logo, e.icon||"🎓")}
-        <div><h3>${e.degree}</h3><div class="meta muted">${e.school} · ${e.period}</div></div></div>
-      ${e.image?`<img src="${e.image}" alt="" style="width:100%;border-radius:10px;margin:10px 0">`:""}
-      <p>${e.details}</p></div>`).join("");
+      <div class="edu-head">${logoThumb(e.logo)}
+        <div><h3>${esc(e.degree)}</h3>
+        <div class="meta muted">${esc(e.school)} · ${esc(e.period)}</div></div></div>
+      ${e.image ? img(e.image, "", "edu-img") : ""}
+      <p>${esc(e.details)}</p></div>`).join("");
   observeReveal();
 }
 
-/* ---- Skills ---- */
+/* ---- Skills (proficiency tiers, not percentages) ---- */
+const TIER_STEPS = { Expert: 3, Advanced: 2, Working: 1 };
+
 function renderSkills(){
-  document.getElementById("list").innerHTML=SITE.skills.map(s=>
-    `<div class="skill"><div class="row"><span>${s.name}</span><span>${s.level}%</span></div>
-     <div class="bar"><i data-w="${s.level}"></i></div></div>`).join("");
-  setTimeout(()=>document.querySelectorAll(".bar > i").forEach(b=>b.style.width=b.dataset.w+"%"),150);
-  const t=document.getElementById("tech");
-  if(t&&SITE.techSkills) t.innerHTML=SITE.techSkills.map(g=>
-    `<div class="card reveal"><h3>${g.group}</h3><div class="tags">${g.items.map(i=>`<span class="tag">${i}</span>`).join("")}</div></div>`).join("");
+  document.getElementById("list").innerHTML = SITE.skills.map(s => {
+    const steps = TIER_STEPS[s.tier] || 1;
+    const meter = [1,2,3].map(n =>
+      `<span class="step${n <= steps ? " on" : ""}"></span>`).join("");
+    return `<div class="skill reveal">
+      <div class="row">
+        <span class="skill-name">${esc(s.name)}</span>
+        <span class="tier tier-${esc(String(s.tier).toLowerCase())}">${esc(s.tier)}</span>
+      </div>
+      <div class="meter" role="img" aria-label="${esc(s.tier)} proficiency">${meter}</div>
+      ${s.note ? `<p class="skill-note muted">${esc(s.note)}</p>` : ""}
+    </div>`;
+  }).join("");
+
+  const t = document.getElementById("tech");
+  if (t && SITE.techSkills) t.innerHTML = SITE.techSkills.map(g =>
+    `<div class="card reveal"><h3>${esc(g.group)}</h3>
+      <ul class="tags">${g.items.map(i => `<li class="tag">${esc(i)}</li>`).join("")}</ul></div>`).join("");
+
+  observeReveal();
+}
+
+/* ---- Patents ---- */
+function renderPatents(){
+  const el = SITE.patents || [];
+  const list = document.getElementById("list");
+
+  if (!el.length){
+    list.classList.remove("cols-2");
+    list.innerHTML = `<div class="card empty-state">
+      <div class="icon" aria-hidden="true">📄</div>
+      <h3>Patent details coming soon</h3>
+      <p class="muted">This page is built and ready — the patent records just need to be
+        added to <code>patents</code> in <code>assets/js/content.js</code>.
+        A commented example sits right above it showing the fields.</p></div>`;
+    return;
+  }
+
+  list.innerHTML = el.map(p => {
+    const bits = [p.number, p.office, p.year].filter(Boolean).map(esc).join(" · ");
+    const title = p.link
+      ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>`
+      : esc(p.title);
+    return `<div class="card patent reveal">
+      <div class="patent-head">
+        <span class="thumb tile" aria-hidden="true">⚖︎</span>
+        ${p.status ? `<span class="tag status">${esc(p.status)}</span>` : ""}
+      </div>
+      <h3>${title}</h3>
+      ${bits ? `<div class="meta muted">${bits}</div>` : ""}
+      ${p.plain ? `<p class="patent-plain">${esc(p.plain)}</p>` : ""}
+    </div>`;
+  }).join("");
+
   observeReveal();
 }

@@ -199,6 +199,7 @@ code { background: var(--surface); border: 1px solid var(--border); border-radiu
 .patent-art svg { display:block; width:100%; height:auto; }
 .patent .tag.status { display:inline-block; margin-bottom:10px; }
 .patent h3 { margin:0 0 4px; font-size:1.1rem; }
+.patent-orig { font-size:.92rem; font-style:italic; margin-bottom:2px; }
 .patent-credit { font-size:.88rem; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
 .patent h3 a { color:var(--text); text-decoration:none; border-bottom:2px solid var(--accent); }
 .patent h3 a:hover { color:var(--accent); }

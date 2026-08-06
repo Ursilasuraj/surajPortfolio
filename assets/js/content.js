@@ -249,6 +249,7 @@ const SITE = {
      leave it out or set it to "".
 
        title       Patent title as filed
+       titleOrig   Original-language title, if the patent isn't in English
        number      Patent / publication number
        office      USPTO, EPO, DPMA, WIPO …
        year        Grant or publication year
@@ -282,6 +283,24 @@ const SITE = {
         "The vehicle tells a server where it is, and the server sends back just " +
         "the sensor reference data for that stretch of road — radar, LiDAR and " +
         "ground-control-point data — instead of the car carrying an entire map on board.",
+    },
+    {
+      title:       "Evaluation of sensor data from a vehicle",
+      titleOrig:   "Auswerten von Sensordaten eines Fahrzeugs",
+      number:      "DE 10 2019 211 006 B4",
+      office:      "DPMA",
+      year:        "2022",
+      filed:       "Filed Jul 2019",
+      status:      "Granted",
+      assignee:    "ZF Friedrichshafen AG",
+      coInventors: "with Mihai Coanda, Mithun Sreekumar and Shantanu Menon",
+      link:        "https://patents.google.com/patent/DE102019211006B4/en",
+      art:         "fusion",
+      plain:
+        "When a car's live sensors disagree with its stored map, something has to decide " +
+        "which to believe. This ranks every source by how much it can be trusted — readings " +
+        "from safety-certified (ASIL) sensors outrank uncertified ones — so the vehicle " +
+        "leans on the more reliable evidence when it merges the two.",
     },
   ],
 

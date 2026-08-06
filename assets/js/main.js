@@ -339,6 +339,30 @@ const PATENT_ART = {
       <circle cx="320" cy="39" r="4.5" fill="#fff" opacity=".9"/>
     </g>`,
 
+  // Map data and live sensor readings merging, judged against a safety rating.
+  fusion: `
+    <g opacity=".55">
+      <rect x="26" y="44" width="88" height="64" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+    </g>
+    <g stroke="currentColor" opacity=".3" stroke-width="1.4">
+      <path d="M26 66 H114 M26 87 H114 M55 44 V108 M85 44 V108"/>
+    </g>
+    <path d="M38 100 C 62 100, 58 64, 102 56" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" opacity=".85"/>
+    <g fill="none" stroke="currentColor" opacity=".45" stroke-width="2" stroke-linecap="round">
+      <path d="M290 106 A 44 44 0 0 1 378 106"/>
+      <path d="M304 106 A 30 30 0 0 1 364 106"/>
+      <path d="M318 106 A 16 16 0 0 1 350 106"/>
+    </g>
+    <circle cx="334" cy="106" r="4" fill="currentColor"/>
+    <g stroke="currentColor" stroke-width="2" fill="none" opacity=".5" stroke-dasharray="4 5">
+      <path d="M120 76 H 166"/><path d="M288 92 H 238"/>
+    </g>
+    <path d="M202 40 l26 9 v20 c0 17 -11 29 -26 36 c-15 -7 -26 -19 -26 -36 v-20 z"
+          fill="currentColor" opacity=".92"/>
+    <path d="M190 76 l8 8 l16 -17" fill="none" stroke="var(--bg,#fff)"
+          stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+
   // Map data streaming from the cloud down to a vehicle.
   cloud: `
     <g fill="currentColor" opacity=".9">
@@ -389,6 +413,7 @@ function renderPatents(){
       ${patentArt(p.art)}
       ${p.status ? `<span class="tag status">${esc(p.status)}</span>` : ""}
       <h3>${title}</h3>
+      ${p.titleOrig ? `<div class="patent-orig muted" lang="de">${esc(p.titleOrig)}</div>` : ""}
       ${bits ? `<div class="meta muted">${bits}</div>` : ""}
       ${p.plain ? `<p class="patent-plain">${esc(p.plain)}</p>` : ""}
       ${credit ? `<div class="patent-credit muted">${credit}</div>` : ""}

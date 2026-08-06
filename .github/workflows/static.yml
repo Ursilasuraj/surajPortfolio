@@ -12,7 +12,7 @@ on:
   # stuck run also blocks every later run, including master's. One branch
   # push can therefore stall deployments entirely until it is cancelled.
   push:
-    branches: ["master"]
+    branches: ["portfolioProfileReview"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

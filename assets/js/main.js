@@ -55,6 +55,73 @@ const hobbyIcon = key => HOBBY_ICON[key]
        focusable="false">${HOBBY_ICON[key]}</svg>`
   : "";
 
+/* Favourites icons.
+   Deliberately evocative rather than reproductions: a generic bat, not the
+   Batman mark; a heater shield, not Captain America's. Studio and franchise
+   logos are copyrighted, and hosting them would also break the site's
+   no-external-requests property. Same line style as the hobby icons. */
+const FAV_ICON = {
+  odyssey: `<path d="M3.5 17.5h17l-2.4 3.4H5.9z"/><path d="M12 3v14.5"/>
+    <path d="M12 5.6c3.4 1 5.5 3.3 6.2 6.6H12z"/><path d="M12 6.4c-2.6.9-4.3 2.9-5 5.8h5"/>`,
+  bat: `<path d="M2.4 9.6c2.2 0 3.3 1 4.2 2.3.9-1.7 2.4-2.7 3.6-2.7.7 0 1.3.2 1.8.6.5-.4 1.1-.6 1.8-.6
+    1.2 0 2.7 1 3.6 2.7.9-1.3 2-2.3 4.2-2.3-1.3 1.7-1.5 3.4-1.1 5-1.9.2-3.3 1.2-4.1 2.6-1-1.4-2.5-2.2-4.4-2.2
+    s-3.4.8-4.4 2.2c-.8-1.4-2.2-2.4-4.1-2.6.4-1.6.2-3.3-1.1-5z"/>`,
+  hat: `<path d="M3 17.6h18"/><path d="M7 17.6V6.4A1.4 1.4 0 0 1 8.4 5h7.2A1.4 1.4 0 0 1 17 6.4v11.2"/>
+    <path d="M7 13.6h10"/>`,
+  top: `<path d="M6.8 6.4h10.4L12 18.6z"/><path d="M12 2.8v3.6"/>
+    <path d="M4.4 9.4c-.7 1.1-1 2.2-1 3.3M19.6 9.4c.7 1.1 1 2.2 1 3.3"/>`,
+  heart: `<path d="M12 20.6s-7.6-4.7-7.6-9.7A4.5 4.5 0 0 1 12 8.3a4.5 4.5 0 0 1 7.6 2.6c0 5-7.6 9.7-7.6 9.7z"/>`,
+  /* Four forces converging — not a sunburst, which is the Alchemist's mark. */
+  assemble: `<circle cx="12" cy="12" r="2.4"/>
+    <path d="M8.4 4.6 12 8.2l3.6-3.6M8.4 19.4 12 15.8l3.6 3.6
+             M4.6 8.4 8.2 12l-3.6 3.6M19.4 8.4 15.8 12l3.6 3.6"/>
+    <path d="M12 2.2v2.4M12 19.4v2.4M2.2 12h2.4M19.4 12h2.4"/>`,
+  reactor: `<circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2"/>
+    <path d="M12 3.4v3.6M12 17v3.6M3.4 12H7M17 12h3.6"/>`,
+  web: `<path d="M12 12V2.6M12 12h9.4M12 12v9.4M12 12H2.6M12 12l6.6-6.6M12 12l6.6 6.6M12 12l-6.6 6.6M12 12 5.4 5.4"/>
+    <path d="M12 5.4 16.7 7.3 18.6 12 16.7 16.7 12 18.6 7.3 16.7 5.4 12 7.3 7.3z"/>`,
+  shield: `<path d="M12 2.8l7.4 2.6v6.2c0 5-3.1 8.6-7.4 9.6-4.3-1-7.4-4.6-7.4-9.6V5.4z"/>
+    <path d="M5.2 12h13.6"/>`,
+  flask: `<path d="M9 2.8v6.4L4.7 17.9A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.8-3.1L15 9.2V2.8"/>
+    <path d="M8 2.8h8M7.2 15h9.6"/>`,
+  crown: `<path d="M4 17.6h16"/><path d="M4.6 17.6 3 7.4l4.6 3.6L12 5l4.4 6 4.6-3.6-1.6 10.2"/>`,
+  dragon: `<path d="M12 21.4c3.3 0 5.5-2.2 5.5-5.2 0-4.1-4-5.7-3.2-9.9-2.7 1-4.1 3.2-4.1 5.5 0 1.4.6 2.4.6 3
+    -1 0-1.8-1-1.8-2.7-1.6 1.5-2.6 2.8-2.6 4.5 0 3 2.3 4.8 5.6 4.8z"/>`,
+  meteor: `<circle cx="15.6" cy="8.4" r="3.6"/><path d="M9.4 14.6 2.6 21.4M13 16.8 8.6 21.4M6.6 11 2.6 15"/>`,
+  atom: `<circle cx="12" cy="12" r="1.9"/><ellipse cx="12" cy="12" rx="9.4" ry="4"/>
+    <ellipse cx="12" cy="12" rx="9.4" ry="4" transform="rotate(60 12 12)"/>
+    <ellipse cx="12" cy="12" rx="9.4" ry="4" transform="rotate(120 12 12)"/>`,
+  mug: `<path d="M4 8.6h12v6.8a4.2 4.2 0 0 1-4.2 4.2H8.2A4.2 4.2 0 0 1 4 15.4z"/>
+    <path d="M16 10.6h1.8a2.7 2.7 0 0 1 0 5.4H16"/><path d="M7.4 5.6c0-1 1-1.3 1-2.3M11 5.6c0-1.2 1.2-1.5 1.2-2.7"/>`,
+  droplet: `<path d="M12 3.2s6 6.7 6 10.7a6 6 0 0 1-12 0c0-4 6-10.7 6-10.7z"/>`,
+  wand: `<path d="M3.4 20.6 14 10"/><path d="M12.7 8.6 15.4 11.3"/>
+    <path d="M17.8 3.2v3.4M16.1 4.9h3.4M20.2 9.4v2.6M18.9 10.7h2.6"/>`,
+  ring: `<circle cx="12" cy="12" r="7.6"/><circle cx="12" cy="12" r="5"/>`,
+  sword: `<path d="M12 2.4 13.7 5v9.4h-3.4V5z"/><path d="M7.8 15h8.4"/><path d="M12 15v4"/>
+    <circle cx="12" cy="20.4" r="1.4"/>`,
+  compass: `<circle cx="12" cy="12" r="9"/><path d="M15.4 8.6 13 14.6 7 17l2.4-6z"/><circle cx="12" cy="12" r="1"/>`,
+  torch: `<path d="M3.4 8.8h9.2v6.4H3.4z"/><path d="M12.6 6.9 17 9.1v5.8l-4.4 2.2z"/>
+    <path d="M18.9 9.6h1.9M18.9 12h2.7M18.9 14.4h1.9"/>`,
+  rocket: `<path d="M12 2.6c2.6 2.3 4 5.5 4 8.9v4.3H8v-4.3c0-3.4 1.4-6.6 4-8.9z"/>
+    <circle cx="12" cy="9.6" r="1.8"/><path d="M8 12.6 5 15.6v3.2l3-2.1M16 12.6l3 3v3.2l-3-2.1"/>
+    <path d="M10.4 19.4c0 1.1.7 2 1.6 2.6.9-.6 1.6-1.5 1.6-2.6"/>`,
+  magnifier: `<circle cx="10.4" cy="10.4" r="6.6"/><path d="M15.2 15.2 21 21"/>`,
+  trident: `<path d="M12 21.6V9"/><path d="M6.8 2.8v4.4a3 3 0 0 0 3 3h4.4a3 3 0 0 0 3-3V2.8"/>
+    <path d="M12 2v8.4"/><path d="M9.6 18.6h4.8"/>`,
+  lamp: `<path d="M4.4 14.6h15.2c0 3-3.4 5.2-7.6 5.2s-7.6-2.2-7.6-5.2z"/>
+    <path d="M12 13.4c1.7 0 2.7-1 2.7-2.4 0-2.1-2.7-3.4-2-5.7-1.7.8-2.5 2-2.5 3.4 0 .8.4 1.4.4 1.8
+    -.6 0-1-.4-1-1.2-.9.8-1.3 1.5-1.3 2.2 0 1.4 1.1 1.9 3.7 1.9z"/>`,
+  pen: `<path d="M3.4 20.6 4.5 16.4l11-11a2.1 2.1 0 0 1 3 3l-11 11z"/><path d="M13.9 6.5 17 9.6"/>`,
+  sun: `<circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6
+    M5.2 5.2 7 7M17 17l1.8 1.8M18.8 5.2 17 7M7 17l-1.8 1.8"/>`,
+  enso: `<path d="M16.9 5.1A8.6 8.6 0 1 0 20.4 11.6"/>`,
+};
+const favIcon = key => FAV_ICON[key]
+  ? `<span class="fav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+       focusable="false">${FAV_ICON[key]}</svg></span>`
+  : `<span class="fav-icon fav-icon-empty" aria-hidden="true"></span>`;
+
 function syncThemeBtn(){
   const b = document.getElementById("themeBtn"); if (!b) return;
   const dark = document.documentElement.getAttribute("data-theme") === "dark";
@@ -80,7 +147,7 @@ function buildChrome(active){
       <nav id="navLinks" class="nav-links" aria-label="Main">
         ${page("index.html","Home")} ${page("experience.html","Experience")}
         ${page("education.html","Education")} ${page("skills.html","Skills")}
-        ${page("patents.html","Patents")}
+        ${page("patents.html","Patents")} ${page("favourites.html","Favourites")}
         <button id="themeBtn" class="toggle" onclick="toggleTheme()"></button>
       </nav>
     </div>`;
@@ -319,6 +386,46 @@ function renderSkills(){
   if (t && SITE.techSkills) t.innerHTML = SITE.techSkills.map(g =>
     `<div class="card reveal"><h3>${esc(g.group)}</h3>
       <ul class="tags">${g.items.map(i => `<li class="tag">${esc(i)}</li>`).join("")}</ul></div>`).join("");
+
+  observeReveal();
+}
+
+/* ---- Favourites: what I watch and what I read ---- */
+function favItem(o, withAuthor){
+  return `<li class="fav-item">
+    ${favIcon(o.icon)}
+    <div class="fav-body">
+      <h4 class="fav-title">${esc(o.title)}</h4>
+      ${withAuthor && o.author ? `<div class="fav-author muted">${esc(o.author)}</div>` : ""}
+      ${o.note ? `<p class="fav-note muted">${esc(o.note)}</p>` : ""}
+    </div></li>`;
+}
+
+function renderFavourites(){
+  const f = SITE.favourites;
+  if (!f) return;
+
+  const intro = document.getElementById("favIntro");
+  if (intro && f.intro) intro.innerHTML = `<p class="lede reveal">${esc(f.intro)}</p>`;
+
+  const screen = document.getElementById("screen");
+  if (screen && f.screen){
+    const block = (heading, items) => items?.length
+      ? `<h3 class="fav-sub">${esc(heading)}</h3>
+         <ul class="fav-grid reveal">${items.map(o => favItem(o, false)).join("")}</ul>`
+      : "";
+    screen.innerHTML = block("Films", f.screen.films) + block("Series", f.screen.series);
+  }
+
+  const shelf = document.getElementById("shelf");
+  if (shelf && f.shelf?.length){
+    shelf.innerHTML = f.shelf.map(g => `
+      <div class="shelf-group reveal">
+        <div class="eyebrow">${esc(g.era)}</div>
+        ${g.blurb ? `<p class="shelf-blurb muted">${esc(g.blurb)}</p>` : ""}
+        <ul class="fav-grid">${g.books.map(b => favItem(b, true)).join("")}</ul>
+      </div>`).join("");
+  }
 
   observeReveal();
 }

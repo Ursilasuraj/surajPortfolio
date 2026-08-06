@@ -221,6 +221,125 @@ const SITE = {
   ],
 
   /* =================================================================
+     FAVOURITES — what I watch and what I read
+     -----------------------------------------------------------------
+     `icon` names a line icon drawn in main.js (FAV_ICON). Leave it out
+     and the entry simply renders without one — not everything needs a
+     mark, and a page of icons stops meaning anything.
+
+     Available icons: odyssey, bat, hat, top, heart, assemble, reactor,
+     web, shield, flask, crown, dragon, meteor, atom, mug, droplet,
+     wand, ring, sword, compass, torch, rocket, magnifier, trident,
+     lamp, pen, sun, enso
+
+     `note` is a one-line personal take. Keep it short and in your own
+     voice — a studio tagline says nothing about you.
+     ================================================================= */
+  favourites: {
+    intro:
+      "Two of my favourite ways to spend an evening. Some of these I've watched or " +
+      "re-read more times than is strictly reasonable — and the ones I return to " +
+      "usually turn out to be about the same thing: how a puzzle fits together.",
+
+    screen: {
+      films: [
+        { title: "The Dark Knight", icon: "bat",
+          note: "The rare sequel that's really a crime epic wearing a cape." },
+        { title: "Inception", icon: "top",
+          note: "A heist film where the vault is a mind — and the score does half the plot." },
+        { title: "The Prestige", icon: "hat",
+          note: "Two magicians, one obsession, and a trick you only catch the second time." },
+        { title: "The Odyssey", icon: "odyssey",
+          note: "Nolan pointed at the oldest story there is. I was never not going to watch it." },
+        { title: "The Avengers — all four", icon: "assemble",
+          note: "Ten years of setup paying off at once. Still hard to believe it landed." },
+        { title: "Iron Man I, II & III", icon: "reactor",
+          note: "Proof that the suit is the least interesting thing about the man." },
+        { title: "The Spider-Man films", icon: "web",
+          note: "Every actor, every timeline. The one hero who stays a person underneath." },
+        { title: "Captain America", icon: "shield",
+          note: "The least powerful Avenger and somehow always the immovable one." },
+        { title: "A Walk to Remember", icon: "heart",
+          note: "Quiet, unfashionable, and it gets me every single time." },
+      ],
+
+      series: [
+        { title: "Breaking Bad", icon: "flask",
+          note: "Chemistry teacher to kingpin, one perfectly reasonable decision at a time." },
+        { title: "Game of Thrones", icon: "crown",
+          note: "For a few years it was the only thing anyone talked about on Monday morning." },
+        { title: "House of the Dragon", icon: "dragon",
+          note: "Same world, smaller board, and everyone on it is related to the problem." },
+        { title: "Dexter", icon: "droplet",
+          note: "A show that dares you to keep rooting for him, then checks whether you did." },
+        { title: "Smallville", icon: "meteor",
+          note: "Ten seasons of the story before the story. I stayed for all of them." },
+        { title: "The Big Bang Theory", icon: "atom",
+          note: "Physics jokes I laughed at before I understood them, then again afterwards." },
+        { title: "Friends", icon: "mug",
+          note: "Comfort television. The one where you've already seen them all." },
+      ],
+    },
+
+    shelf: [
+      {
+        era: "Read and re-read",
+        blurb: "The ones I go back to rather than finish.",
+        books: [
+          { title: "Harry Potter", author: "J.K. Rowling", icon: "wand",
+            note: "Four or five times through, and the castle still feels like somewhere I've lived." },
+          { title: "The Lord of the Rings", author: "J.R.R. Tolkien", icon: "ring",
+            note: "The one that made every other fantasy map look small." },
+          { title: "The Inheritance Cycle", author: "Christopher Paolini", icon: "sword",
+            note: "Four thick books I took at a run, and never once felt like homework." },
+        ],
+      },
+      {
+        era: "Where it started",
+        blurb: "Childhood, and the reason any of the rest happened.",
+        books: [
+          { title: "Famous Five · Secret Seven", author: "Enid Blyton", icon: "compass",
+            note: "Small adventurers solving things adults couldn't. I was completely sold." },
+        ],
+      },
+      {
+        era: "The teenage detectives",
+        blurb: "A long stretch of wanting to work out the answer first.",
+        books: [
+          { title: "The Hardy Boys", author: "Franklin W. Dixon", icon: "torch",
+            note: "A mystery a week, and I never minded knowing they'd solve it." },
+          { title: "Tintin", author: "Hergé", icon: "rocket",
+            note: "Read for the story, stayed for panels I still remember frame by frame." },
+          { title: "Sherlock Holmes", author: "Arthur Conan Doyle", icon: "magnifier",
+            note: "Where I learned that noticing is a skill, not a talent." },
+        ],
+      },
+      {
+        era: "Closer to home",
+        blurb: "The last few years, mostly Indian authors.",
+        books: [
+          { title: "The Shiva Trilogy", author: "Amish Tripathi", icon: "trident",
+            note: "Mythology rebuilt as a thriller, with the gods made stubbornly human." },
+          { title: "The Ravana retelling", author: "Anand Neelakantan", icon: "lamp",
+            note: "The Ramayana from the losing side — which turns out to be the interesting one." },
+          { title: "Four novels", author: "Chetan Bhagat", icon: "pen",
+            note: "Easy company on a long flight, and sharper about India than they let on." },
+        ],
+      },
+      {
+        era: "Quieter shelves",
+        blurb: "Short books that outstayed their page count.",
+        books: [
+          { title: "The Alchemist", author: "Paulo Coelho", icon: "sun",
+            note: "Slim, deceptively simple, and it lands differently each time you pick it up." },
+          { title: "Ikigai", author: "García & Miralles", icon: "enso",
+            note: "A small book about why you get up in the morning." },
+        ],
+      },
+    ],
+  },
+
+  /* =================================================================
      EDUCATION
      ================================================================= */
   education: [

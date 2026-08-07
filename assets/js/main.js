@@ -130,6 +130,21 @@ const FAV_ICON = {
   hourglass: `<path d="M6 3.4h12M6 20.6h12"/>
     <path d="M7.4 3.4v3.4c0 2.4 1.6 3.8 4.6 5.2-3 1.4-4.6 2.8-4.6 5.2v3.4M16.6 3.4v3.4c0 2.4-1.6 3.8-4.6 5.2
     3 1.4 4.6 2.8 4.6 5.2v3.4"/>`,
+  /* One bold dune ridge under a rising sun. Two thinner ridges (an earlier
+     attempt) blurred into a single line at 38px once anti-aliasing took
+     over — bold and simple survives the small size better than detail
+     does, the same lesson `mortar` and `key` needed. Deliberately not the
+     radial burst used by `sun`, so the two never read as the same mark. */
+  dune: `<circle cx="17" cy="6" r="3"/>
+    <path d="M1.4 20.6Q11.5 8.4 22.4 20.6"/>`,
+  /* A throne: wide back frame, a seat line spanning it, short armrest
+     nubs at the base — distinct from the jagged `crown` already used for
+     Game of Thrones. A first attempt with narrower proportions lost the
+     armrests against the back panel at 38px. */
+  throne: `<path d="M6 21V6a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v15"/>
+    <path d="M6 13h12"/>
+    <path d="M6 21H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2
+             M18 21h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2"/>`,
 };
 const favIcon = key => FAV_ICON[key]
   ? `<span class="fav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -450,8 +465,24 @@ function renderFavourites(){
 
   const kitchen = document.getElementById("kitchen");
   if (kitchen && f.kitchen?.items?.length){
+    const eating = f.kitchen.eating;
     kitchen.innerHTML = halfBlurb(f.kitchen.blurb)
-      + `<ul class="fav-grid reveal">${f.kitchen.items.map(o => favItem(o, false)).join("")}</ul>`;
+      + `<ul class="fav-grid reveal">${f.kitchen.items.map(o => favItem(o, false)).join("")}</ul>`
+      + (eating?.photos?.length ? `
+        ${eating.blurb ? `<p class="shelf-blurb muted" style="margin-top:34px">${esc(eating.blurb)}</p>` : ""}
+        <div class="gallery eat-gallery reveal">${eating.photos.map((p, i) =>
+          `<button class="gallery-item" data-i="${i}" aria-label="Enlarge photo: ${esc(p.alt)}">
+            ${img(p.src, p.alt)}
+            ${p.caption ? `<span class="eat-caption">${esc(p.caption)}</span>` : ""}
+          </button>`).join("")}</div>` : "");
+
+    if (eating?.photos?.length){
+      kitchen.querySelector(".eat-gallery").addEventListener("click", e => {
+        const b = e.target.closest(".gallery-item"); if (!b) return;
+        const p = eating.photos[+b.dataset.i];
+        lightbox(p.src, p.alt, b);
+      });
+    }
   }
 
   observeReveal();

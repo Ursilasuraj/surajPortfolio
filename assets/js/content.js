@@ -73,9 +73,9 @@ const SITE = {
         text: "Reading a route like a puzzle, then solving it move by move. It's the closest physical thing to debugging — you fail, change one variable, and try again." },
       { icon: "cooking", title: "Cooking",  img: "images/food.jpg",
         text: "Not plating — flavour. I want a mouthful to land somewhere you weren't expecting. Mostly Indian, mostly meat and fish, and spice measured by what the dish needs rather than how hot it can get." },
-      { icon: "book", title: "Reading", img: "",
+      { icon: "book", title: "Reading", img: "images/reading.jpg",
         text: "Four or five passes through Harry Potter and still counting. I read for worlds that couldn't exist — the further from an engineering problem, the better." },
-      { icon: "swimming", title: "Swimming",   img: "",
+      { icon: "swimming", title: "Swimming",   img: "images/swimming.jpg",
         text: "Laps to reset the mind — my favourite kind of deep focus. Nothing to read, nothing to answer, just count and breathe." },
       { icon: "tv", title: "Watching TV", img: "",
         text: "A devoted binge-watcher with a soft spot for clever storytelling. Good structure is good structure, whether it's a plot or a system architecture." },
@@ -86,6 +86,8 @@ const SITE = {
     gallery: [
       { src: "images/travel1.jpg", alt: "Standing beside a turquoise alpine lake with arms outstretched, pine forest and snow-capped peaks behind." },
       { src: "images/travel2.jpg", alt: "Standing on a limestone clifftop above turquoise ocean, with sea arches and sandstone cliffs along the coast." },
+      { src: "images/hiking-pasture.jpg", alt: "Standing with trekking poles in an alpine pasture with grazing cows, a mountain village and snow-capped peaks in the distance." },
+      { src: "images/travel3.jpg", alt: "Standing on a stone stairway inside a hilltop fortress, river and forest visible in the valley below." },
     ],
   },
 
@@ -243,7 +245,7 @@ const SITE = {
      Available icons: odyssey, bat, hat, top, heart, assemble, reactor,
      web, shield, flask, crown, dragon, meteor, atom, mug, droplet,
      wand, ring, sword, compass, torch, rocket, magnifier, key, trident,
-     lamp, pen, sun, enso, mortar, fish, pan, hourglass
+     lamp, pen, sun, enso, mortar, fish, pan, hourglass, dune, throne
      ================================================================= */
   favourites: {
     intro:
@@ -274,6 +276,8 @@ const SITE = {
           note: "The least powerful Avenger, and the choreography knows it. All leverage and angles." },
         { title: "A Walk to Remember", icon: "heart",
           note: "Nothing to take apart here. It just works on me, every single time." },
+        { title: "Dune · Dune: Part Two", icon: "dune",
+          note: "Real desert, practical ornithopters, and sound design doing half the worldbuilding. Villeneuve built it rather than rendered it." },
       ],
 
       series: [
@@ -307,6 +311,11 @@ const SITE = {
               note: "Languages, maps, genealogies. A world built so far past the plot that the plot feels discovered rather than written." },
             { title: "The Inheritance Cycle", author: "Christopher Paolini", icon: "sword",
               note: "Four thick books I took at a run. Dragons with rules, which is what makes them believable." },
+            { title: "Dune", author: "Frank Herbert", icon: "dune",
+              note: "Ecology, politics and religion welded into one desert. The rare book whose world feels like it has rules older than the plot." },
+            { title: "A Song of Ice and Fire", author: "George R.R. Martin", icon: "throne",
+              works: "A Game of Thrones · A Clash of Kings · A Storm of Swords · A Feast for Crows · A Dance with Dragons",
+              note: "Read them before the show and still argue the show got some of it wrong." },
           ],
         },
         {
@@ -380,6 +389,24 @@ const SITE = {
         { title: "Desserts", icon: "hourglass",
           note: "They need patience, and patience is measured. I'll make them; I won't pretend they're my strength." },
       ],
+
+      /* Meals I ate, not meals I made — deliberately not "presentation is the
+         last thing I care about": this is the other side of the same
+         appetite, food elaborate enough to reset the bar. */
+      eating: {
+        blurb: "The other side of it: meals that reset what I think good tastes like.",
+        photos: [
+          { src: "images/eat1.jpg",
+            alt: "A tasting plate with a dressed oyster, spiced shredded meat, a saffron bite and a fried croquette.",
+            caption: "An oyster course that made me rethink what a garnish is for." },
+          { src: "images/eat2.jpg",
+            alt: "A sharing plate of grilled flatbread, hummus with beet purée, spiced ribs, pickled onion and a meat terrine.",
+            caption: "A whole table built around contrast — heat, pickle, char, cream." },
+          { src: "images/eat3.jpg",
+            alt: "A dessert selection: pistachio and mango mousse cakes, a berry compote, chocolate crumble and a citrus slice.",
+            caption: "The one course I'll happily let someone else make." },
+        ],
+      },
     },
   },
 

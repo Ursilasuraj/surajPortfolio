@@ -48,6 +48,8 @@ const HOBBY_ICON = {
     <path d="M2 20.4c2 0 2-1.3 4-1.3s2 1.3 4 1.3 2-1.3 4-1.3 2 1.3 4 1.3 2-1.3 4-1.3"/>`,
   tv: `<rect x="2.6" y="6.2" width="18.8" height="12.2" rx="1.6"/>
     <path d="M8.4 21.6h7.2M12 18.4v3.2M8.2 2.6 12 6.2l3.8-3.6"/>`,
+  book: `<path d="M12 5.4c-1.8-1.4-4.3-2-7.4-1.8v14.8c3.1-.2 5.6.4 7.4 1.8
+    c1.8-1.4 4.3-2 7.4-1.8V3.6c-3.1-.2-5.6.4-7.4 1.8z"/><path d="M12 5.4v14.8"/>`,
 };
 const hobbyIcon = key => HOBBY_ICON[key]
   ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"
@@ -118,6 +120,16 @@ const FAV_ICON = {
   sun: `<circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6
     M5.2 5.2 7 7M17 17l1.8 1.8M18.8 5.2 17 7M7 17l-1.8 1.8"/>`,
   enso: `<path d="M16.9 5.1A8.6 8.6 0 1 0 20.4 11.6"/>`,
+  /* Bowl with a pestle resting in it, angled — a basket without the pestle. */
+  mortar: `<path d="M4.4 12.6h15.2l-1.6 5.4a3 3 0 0 1-2.9 2.2h-6.2a3 3 0 0 1-2.9-2.2z"/>
+    <path d="M8.4 12.6c-.4-3.4 1.4-5.6 4-6.6"/>
+    <path d="M9.4 4.4 15 10" stroke-width="1.6"/><circle cx="15.7" cy="10.7" r="1.5"/>`,
+  fish: `<path d="M3 12c3-3.6 6.6-5.4 10.4-5.4 3 0 5.6 1.6 7.6 5.4-2 3.8-4.6 5.4-7.6 5.4C9.6 17.4 6 15.6 3 12z"/>
+    <path d="M20 12l2.6-2.6M20 12l2.6 2.6"/><circle cx="8.4" cy="10.6" r=".9"/>`,
+  pan: `<circle cx="10.4" cy="12" r="6.4"/><path d="M16.4 9.4h5.2M16.8 7.6l4.4-1M16.8 11.6l4.6 1.4"/>`,
+  hourglass: `<path d="M6 3.4h12M6 20.6h12"/>
+    <path d="M7.4 3.4v3.4c0 2.4 1.6 3.8 4.6 5.2-3 1.4-4.6 2.8-4.6 5.2v3.4M16.6 3.4v3.4c0 2.4-1.6 3.8-4.6 5.2
+    3 1.4 4.6 2.8 4.6 5.2v3.4"/>`,
 };
 const favIcon = key => FAV_ICON[key]
   ? `<span class="fav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -434,6 +446,12 @@ function renderFavourites(){
         ${g.blurb ? `<p class="shelf-blurb muted">${esc(g.blurb)}</p>` : ""}
         <ul class="fav-grid">${g.books.map(b => favItem(b, true)).join("")}</ul>
       </div>`).join("");
+  }
+
+  const kitchen = document.getElementById("kitchen");
+  if (kitchen && f.kitchen?.items?.length){
+    kitchen.innerHTML = halfBlurb(f.kitchen.blurb)
+      + `<ul class="fav-grid reveal">${f.kitchen.items.map(o => favItem(o, false)).join("")}</ul>`;
   }
 
   observeReveal();

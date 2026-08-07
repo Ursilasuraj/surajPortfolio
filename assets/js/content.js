@@ -72,7 +72,9 @@ const SITE = {
       { icon: "bouldering", title: "Bouldering", img: "images/boulder.jpg",
         text: "Reading a route like a puzzle, then solving it move by move. It's the closest physical thing to debugging — you fail, change one variable, and try again." },
       { icon: "cooking", title: "Cooking",  img: "images/food.jpg",
-        text: "Reverse-engineering flavours and plating new dishes — my edible R&D. Every dish is iteration under constraints: fixed ingredients, fixed time, taste and adjust." },
+        text: "Not plating — flavour. I want a mouthful to land somewhere you weren't expecting. Mostly Indian, mostly meat and fish, and spice measured by what the dish needs rather than how hot it can get." },
+      { icon: "book", title: "Reading", img: "",
+        text: "Four or five passes through Harry Potter and still counting. I read for worlds that couldn't exist — the further from an engineering problem, the better." },
       { icon: "swimming", title: "Swimming",   img: "",
         text: "Laps to reset the mind — my favourite kind of deep focus. Nothing to read, nothing to answer, just count and breathe." },
       { icon: "tv", title: "Watching TV", img: "",
@@ -241,14 +243,15 @@ const SITE = {
      Available icons: odyssey, bat, hat, top, heart, assemble, reactor,
      web, shield, flask, crown, dragon, meteor, atom, mug, droplet,
      wand, ring, sword, compass, torch, rocket, magnifier, key, trident,
-     lamp, pen, sun, enso
+     lamp, pen, sun, enso, mortar, fish, pan, hourglass
      ================================================================= */
   favourites: {
     intro:
-      "Two different appetites. On screen I can't stop watching the machinery — how a " +
-      "shot was built, whether the physics holds, where the edit hides the seam. On the " +
-      "page I want the exact opposite: somewhere that couldn't possibly exist, written " +
-      "well enough that it does.",
+      "Two different appetites, and one literal one. On screen I can't stop watching the " +
+      "machinery — how a shot was built, whether the physics holds, where the edit hides " +
+      "the seam. On the page I want the exact opposite: somewhere that couldn't possibly " +
+      "exist, written well enough that it does. And in the kitchen I'm after the same " +
+      "thing as both — a mouthful that puts you somewhere else.",
 
     screen: {
       blurb: "I can't switch the engineering off. Half of what I enjoy is watching how the thing was made.",
@@ -310,8 +313,9 @@ const SITE = {
           era: "Where it started",
           blurb: "Childhood, and the reason any of the rest happened.",
           books: [
-            { title: "Famous Five · Secret Seven", author: "Enid Blyton", icon: "compass",
-              note: "Small adventurers solving what adults couldn't. I was completely sold." },
+            { title: "The Blyton years", author: "Enid Blyton", icon: "compass",
+              works: "Famous Five · Secret Seven · The Wishing-Chair · Enchanted Tales",
+              note: "Small adventurers solving what adults couldn't — and a chair that flew. Where the habit started, and I was completely sold." },
           ],
         },
         {
@@ -339,8 +343,9 @@ const SITE = {
           era: "Closer to home",
           blurb: "The last few years, mostly Indian authors.",
           books: [
-            { title: "The Shiva Trilogy", author: "Amish Tripathi", icon: "trident",
-              note: "Mythology rebuilt as a thriller, with the gods left stubbornly human." },
+            { title: "The Shiva Trilogy · The Ram Chandra series", author: "Amish Tripathi", icon: "trident",
+              works: "The Immortals of Meluha · The Secret of the Nagas · The Oath of the Vayuputras · Scion of Ikshvaku · Sita: Warrior of Mithila",
+              note: "Mythology rebuilt as a thriller, with the gods left stubbornly human. Five books in and he still hasn't run out of road." },
             { title: "The Ravana retelling", author: "Anand Neelakantan", icon: "lamp",
               note: "The Ramayana from the losing side, which turns out to be the more interesting one." },
             { title: "Four novels", author: "Chetan Bhagat", icon: "pen",
@@ -358,6 +363,22 @@ const SITE = {
               note: "A small book about why you get up in the morning." },
           ],
         },
+      ],
+    },
+
+    kitchen: {
+      blurb:
+        "Presentation is the last thing I care about. I'm cooking for the moment the " +
+        "flavour lands somewhere you weren't expecting.",
+      items: [
+        { title: "Indian, mostly", icon: "mortar",
+          note: "The food I grew up on and still the food I reach for. Regional, home-style, and nothing that needs a garnish to justify itself." },
+        { title: "Meat and fish", icon: "fish",
+          note: "Where spice does the real work. Enough to build heat and depth, never so much that the thing underneath disappears." },
+        { title: "Appetisers and mains", icon: "pan",
+          note: "My end of the meal. This is where I'll happily improvise, and where the good ideas turn up." },
+        { title: "Desserts", icon: "hourglass",
+          note: "They need patience, and patience is measured. I'll make them; I won't pretend they're my strength." },
       ],
     },
   },

@@ -93,7 +93,7 @@ const SITE = {
      PROFESSIONAL EXPERIENCE
 
      Write bullets as OUTCOMES, not duties: what changed because you
-     were there. Anything marked TODO still needs a real number.
+     were there.
      ================================================================= */
   experience: [
     {
@@ -104,12 +104,12 @@ const SITE = {
       period: "Dec 2024 – Present",
       location: "Stuttgart, Germany · On-site",
       bullets: [
-        "Own the product strategy for the Classic Measurement & Calibration solution — the tooling engineers use to observe and tune ECU behaviour in production vehicles. [TODO: add scale — how many customers or vehicle programs depend on it?]",
-        "Turn ambiguous customer requirements into shippable product concepts, working directly with development, sales and program management. [TODO: name one concept you drove from first request to release]",
-        "Act as the technical bridge between customers and development, so field problems reach the people who can fix them without losing detail on the way.",
-        "Keep one coherent solution story across product lines, Vector subsidiaries and cooperation partners, so customers get the same answer wherever they ask.",
-        "Produce the solution presentations and product information the sales organisation uses to win deals.",
-        "Maintain the user manual and solution stories so customers can self-serve instead of raising support tickets. [TODO: any measurable drop in support load?]",
+        "Own the product strategy for the Classic Measurement & Calibration solution — the tooling engineers across a diverse, ever-changing base of automotive customers rely on to observe and tune ECU behaviour in production vehicles.",
+        "Turn ambiguous customer requirements into shippable product concepts end-to-end — from the first ask through to a released capability — working hand-in-hand with development, sales and program management.",
+        "Serve as the technical bridge between customers and development, ensuring field issues reach the right engineers with full context intact.",
+        "Maintain one coherent solution story across product lines, Vector subsidiaries and cooperation partners — so customers get a consistent answer no matter who they ask.",
+        "Create the solution presentations and product materials the sales organisation relies on to win deals.",
+        "Maintain the user manual and solution stories that let customers self-serve answers instead of opening a support ticket in the first place.",
       ],
     },
     {
@@ -120,11 +120,11 @@ const SITE = {
       period: "May 2022 – Nov 2024",
       location: "Friedrichshafen, Germany",
       bullets: [
-        "Architected the cloud map-storage system that streams HD-map data to production vehicles — data model, protocols and API contracts, end to end. [TODO: add scale — data volume, map coverage or number of vehicles]",
-        "Made Map-over-the-Air delivery possible, so vehicles receive current map data in the field instead of waiting for a workshop visit. [TODO: add impact — update latency or bandwidth, before vs after]",
+        "Architected the cloud map-storage system that streams HD-map data to production vehicles — data model, protocols and API contracts, end to end — supporting delivery footprints from a 500 m to 2 km radius around the vehicle, or along a trajectory computed on the fly, so vehicles receive exactly the map data they need.",
+        "Made Map-over-the-Air delivery possible, so vehicles receive current map data directly in the field instead of waiting for a workshop visit — turning a manual update process into a background one.",
         "Defined the V2X concept and interface for vehicle-to-infrastructure communication, setting the contract downstream teams built against.",
         "Planned and estimated front-end and back-end effort for the cloud services, giving program management a delivery forecast they could commit to.",
-        "Coordinated web application development for Map-over-the-Air services across teams. [TODO: how many teams / engineers?]",
+        "Coordinated web application development for Map-over-the-Air services across multiple engineering teams, keeping delivery aligned with the cloud architecture.",
       ],
     },
     {
@@ -137,7 +137,7 @@ const SITE = {
       bullets: [
         "Owned the map software components behind autonomous vehicle localisation and navigation — architecture, interfaces and delivery into the target system.",
         "Shipped V2X applications onto target hardware, taking vehicle-to-infrastructure communication from concept to running code on real ECUs.",
-        "Evaluated HD-Map creation technologies and made the build-versus-buy recommendation. [TODO: which program did this decision shape, and what did it save?]",
+        "Evaluated HD-Map creation technologies and made the build-versus-buy recommendation that shaped how the team sourced map data going forward.",
         "Ran deliveries of map-based software to the vehicle, keeping cloud-hosted map applications in step with vehicle-side integration.",
       ],
     },
@@ -149,7 +149,7 @@ const SITE = {
       period: "May 2018 – Apr 2020",
       location: "Friedrichshafen, Germany",
       bullets: [
-        "Developed software functions (Python & C++) that turned raw sensor data into HD-Map content for autonomous driving.",
+        "Built software functions in Python and C++ that turned raw sensor data into HD-Map content for autonomous driving.",
         "Implemented processing on ROS using PCL to handle large LiDAR point-cloud datasets.",
       ],
     },
@@ -160,10 +160,10 @@ const SITE = {
       period: "May 2017 – Nov 2017",
       location: "Germany · On-site",
       bullets: [
-        "Investigated and implemented an IEC 61131-3 Structured Text parser",
+        "Researched and built an IEC 61131-3 Structured Text parser from the ground up",
         "Emulated a PLC in ABB RobotStudio using .NET (C#)",
-        "Extended an ABB Python library for IEC 61131-3 Structured Text emulation",
-        "Prototyped remote control of the simulation environment using voice commands (AWS)",
+        "Extended an ABB Python library to support IEC 61131-3 Structured Text emulation",
+        "Prototyped voice-controlled operation of the simulation environment using AWS",
       ],
     },
     {
@@ -181,8 +181,8 @@ const SITE = {
       period: "Oct 2016 – Mar 2017",
       location: "Ladenburg, Germany",
       bullets: [
-        "Developed modules in HTML5, JavaScript and D3.js on ASP.NET Web API services",
-        "Analysed and developed algorithms to find anomalies in industrial data (C#)",
+        "Built HTML5, JavaScript and D3.js modules on top of ASP.NET Web API services",
+        "Designed and implemented C# algorithms to detect anomalies in industrial data",
         "Designed sorting mechanisms and a persistence layer for parameter configuration",
       ],
     },
@@ -193,9 +193,9 @@ const SITE = {
       period: "Aug 2014 – Aug 2015",
       location: "Bengaluru, India · On-site",
       bullets: [
-        "Wrote and executed test cases for control products",
-        "Designed control environments, hardware setup and system integration",
-        "Mentored management trainees in testing",
+        "Wrote and ran test cases for control products",
+        "Designed control environments, hardware setups and system integration",
+        "Mentored incoming management trainees in testing practice",
       ],
     },
     {
@@ -205,8 +205,8 @@ const SITE = {
       period: "Aug 2013 – Aug 2014",
       location: "India",
       bullets: [
-        "Product type & regression testing in the ABB 800xA system; developed auto-test scripts",
-        "Upgraded FPGAs across various controllers in the division",
+        "Ran product-type and regression testing in the ABB 800xA system, and built auto-test scripts to support it",
+        "Upgraded FPGAs across multiple controllers in the division",
       ],
     },
     {
@@ -216,7 +216,7 @@ const SITE = {
       period: "Jan 2013 – Jun 2013",
       location: "Bengaluru, India",
       bullets: [
-        "Building Automation System implementation & integration; graphics development",
+        "Implemented and integrated a Building Automation System, including graphics development",
         "Integrated and programmed sensors, actuators and controllers",
       ],
     },

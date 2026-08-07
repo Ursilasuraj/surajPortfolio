@@ -4,13 +4,16 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the default branch.
   #
-  # Deploy ONLY from the default branch. Pages publishes a single site from
-  # a single permitted source: a deployment from any other branch is never
-  # accepted, but it is not rejected either — it sits queued until
+  # Pages publishes ONE site, from whichever branch is named here.
+  #
+  # If a deployment is attempted from a branch the github-pages environment
+  # does not permit, it is not rejected — it sits queued until
   # actions/deploy-pages times out after ~10 minutes. Because the job holds
   # the "pages" concurrency group below with cancel-in-progress: false, that
-  # stuck run also blocks every later run, including master's. One branch
-  # push can therefore stall deployments entirely until it is cancelled.
+  # stuck run then blocks every later run too. If deploys start hanging,
+  # cancel the stuck run first, then check
+  # Settings → Environments → github-pages → Deployment branches
+  # and make sure the branch named below is allowed.
   push:
     branches: ["portfolioProfileReview"]
 

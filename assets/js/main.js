@@ -106,6 +106,9 @@ const FAV_ICON = {
     <circle cx="12" cy="9.6" r="1.8"/><path d="M8 12.6 5 15.6v3.2l3-2.1M16 12.6l3 3v3.2l-3-2.1"/>
     <path d="M10.4 19.4c0 1.1.7 2 1.6 2.6.9-.6 1.6-1.5 1.6-2.6"/>`,
   magnifier: `<circle cx="10.4" cy="10.4" r="6.6"/><path d="M15.2 15.2 21 21"/>`,
+  /* Horizontal: bow, shaft, two teeth. A diagonal key reads as a magnifier. */
+  key: `<circle cx="6.6" cy="12" r="4.1"/><circle cx="6.6" cy="12" r="1.3"/>
+    <path d="M10.7 12H21"/><path d="M17 12v3.4M20.2 12v2.6"/>`,
   trident: `<path d="M12 21.6V9"/><path d="M6.8 2.8v4.4a3 3 0 0 0 3 3h4.4a3 3 0 0 0 3-3V2.8"/>
     <path d="M12 2v8.4"/><path d="M9.6 18.6h4.8"/>`,
   lamp: `<path d="M4.4 14.6h15.2c0 3-3.4 5.2-7.6 5.2s-7.6-2.2-7.6-5.2z"/>
@@ -397,6 +400,7 @@ function favItem(o, withAuthor){
     <div class="fav-body">
       <h4 class="fav-title">${esc(o.title)}</h4>
       ${withAuthor && o.author ? `<div class="fav-author muted">${esc(o.author)}</div>` : ""}
+      ${o.works ? `<div class="fav-works muted">${esc(o.works)}</div>` : ""}
       ${o.note ? `<p class="fav-note muted">${esc(o.note)}</p>` : ""}
     </div></li>`;
 }
@@ -408,18 +412,23 @@ function renderFavourites(){
   const intro = document.getElementById("favIntro");
   if (intro && f.intro) intro.innerHTML = `<p class="lede reveal">${esc(f.intro)}</p>`;
 
+  // Each half restates the page's thesis in its own words.
+  const halfBlurb = text => text
+    ? `<p class="section-blurb reveal">${esc(text)}</p>` : "";
+
   const screen = document.getElementById("screen");
   if (screen && f.screen){
     const block = (heading, items) => items?.length
       ? `<h3 class="fav-sub">${esc(heading)}</h3>
          <ul class="fav-grid reveal">${items.map(o => favItem(o, false)).join("")}</ul>`
       : "";
-    screen.innerHTML = block("Films", f.screen.films) + block("Series", f.screen.series);
+    screen.innerHTML = halfBlurb(f.screen.blurb)
+      + block("Films", f.screen.films) + block("Series", f.screen.series);
   }
 
   const shelf = document.getElementById("shelf");
-  if (shelf && f.shelf?.length){
-    shelf.innerHTML = f.shelf.map(g => `
+  if (shelf && f.shelf?.groups?.length){
+    shelf.innerHTML = halfBlurb(f.shelf.blurb) + f.shelf.groups.map(g => `
       <div class="shelf-group reveal">
         <div class="eyebrow">${esc(g.era)}</div>
         ${g.blurb ? `<p class="shelf-blurb muted">${esc(g.blurb)}</p>` : ""}

@@ -223,120 +223,143 @@ const SITE = {
   /* =================================================================
      FAVOURITES — what I watch and what I read
      -----------------------------------------------------------------
-     `icon` names a line icon drawn in main.js (FAV_ICON). Leave it out
-     and the entry simply renders without one — not everything needs a
-     mark, and a page of icons stops meaning anything.
+     The page runs on one idea: on screen I watch how a thing was built,
+     on the page I want somewhere that couldn't exist. `intro` states it,
+     and each half repeats it in its own `blurb`. If you rewrite one,
+     rewrite the others so they still agree.
+
+     Entry fields:
+       title   What it is
+       author  Books only
+       works   Optional list of individual titles, for a grouped entry
+       icon    A line icon drawn in main.js (FAV_ICON). Optional — leave
+               it out and the entry renders with a small rule instead.
+               A page where everything has an icon says nothing.
+       note    A one-line personal take. Short, and in your own voice —
+               a studio tagline says nothing about you.
 
      Available icons: odyssey, bat, hat, top, heart, assemble, reactor,
      web, shield, flask, crown, dragon, meteor, atom, mug, droplet,
-     wand, ring, sword, compass, torch, rocket, magnifier, trident,
+     wand, ring, sword, compass, torch, rocket, magnifier, key, trident,
      lamp, pen, sun, enso
-
-     `note` is a one-line personal take. Keep it short and in your own
-     voice — a studio tagline says nothing about you.
      ================================================================= */
   favourites: {
     intro:
-      "Two of my favourite ways to spend an evening. Some of these I've watched or " +
-      "re-read more times than is strictly reasonable — and the ones I return to " +
-      "usually turn out to be about the same thing: how a puzzle fits together.",
+      "Two different appetites. On screen I can't stop watching the machinery — how a " +
+      "shot was built, whether the physics holds, where the edit hides the seam. On the " +
+      "page I want the exact opposite: somewhere that couldn't possibly exist, written " +
+      "well enough that it does.",
 
     screen: {
+      blurb: "I can't switch the engineering off. Half of what I enjoy is watching how the thing was made.",
       films: [
         { title: "The Dark Knight", icon: "bat",
-          note: "The rare sequel that's really a crime epic wearing a cape." },
+          note: "A real truck flipped on a real street, shot on IMAX. The spectacle was built, not rendered." },
         { title: "Inception", icon: "top",
-          note: "A heist film where the vault is a mind — and the score does half the plot." },
+          note: "They actually built the rotating corridor. Every layer runs on its own clock and the edit never drops one." },
         { title: "The Prestige", icon: "hat",
-          note: "Two magicians, one obsession, and a trick you only catch the second time." },
+          note: "The film is assembled exactly like the trick it describes. Pledge, turn, prestige." },
         { title: "The Odyssey", icon: "odyssey",
-          note: "Nolan pointed at the oldest story there is. I was never not going to watch it." },
+          note: "The oldest story there is, handed to the most technical director working. I was always going to watch how he built it." },
         { title: "The Avengers — all four", icon: "assemble",
-          note: "Ten years of setup paying off at once. Still hard to believe it landed." },
+          note: "Ten years of setup landing in one film. The scheduling alone is an engineering feat." },
         { title: "Iron Man I, II & III", icon: "reactor",
-          note: "Proof that the suit is the least interesting thing about the man." },
+          note: "Every suit-up is an assembly sequence. I have never once skipped one." },
         { title: "The Spider-Man films", icon: "web",
-          note: "Every actor, every timeline. The one hero who stays a person underneath." },
+          note: "Every actor, every timeline — and each one solves the same swing differently." },
         { title: "Captain America", icon: "shield",
-          note: "The least powerful Avenger and somehow always the immovable one." },
+          note: "The least powerful Avenger, and the choreography knows it. All leverage and angles." },
         { title: "A Walk to Remember", icon: "heart",
-          note: "Quiet, unfashionable, and it gets me every single time." },
+          note: "Nothing to take apart here. It just works on me, every single time." },
       ],
 
       series: [
         { title: "Breaking Bad", icon: "flask",
-          note: "Chemistry teacher to kingpin, one perfectly reasonable decision at a time." },
+          note: "Every frame composed, every colour tracked to a character. The chemistry is the least of it." },
         { title: "Game of Thrones", icon: "crown",
-          note: "For a few years it was the only thing anyone talked about on Monday morning." },
+          note: "Practical sets, real horses, a battle shot in mud for weeks. You can feel the weight." },
         { title: "House of the Dragon", icon: "dragon",
-          note: "Same world, smaller board, and everyone on it is related to the problem." },
+          note: "Same world, smaller board — and every dragon flies to its own logic." },
         { title: "Dexter", icon: "droplet",
-          note: "A show that dares you to keep rooting for him, then checks whether you did." },
+          note: "A show that dares you to keep rooting for him, then quietly checks whether you did." },
         { title: "Smallville", icon: "meteor",
           note: "Ten seasons of the story before the story. I stayed for all of them." },
         { title: "The Big Bang Theory", icon: "atom",
           note: "Physics jokes I laughed at before I understood them, then again afterwards." },
         { title: "Friends", icon: "mug",
-          note: "Comfort television. The one where you've already seen them all." },
+          note: "No craft to admire, no puzzle to solve. The one where you've already seen them all." },
       ],
     },
 
-    shelf: [
-      {
-        era: "Read and re-read",
-        blurb: "The ones I go back to rather than finish.",
-        books: [
-          { title: "Harry Potter", author: "J.K. Rowling", icon: "wand",
-            note: "Four or five times through, and the castle still feels like somewhere I've lived." },
-          { title: "The Lord of the Rings", author: "J.R.R. Tolkien", icon: "ring",
-            note: "The one that made every other fantasy map look small." },
-          { title: "The Inheritance Cycle", author: "Christopher Paolini", icon: "sword",
-            note: "Four thick books I took at a run, and never once felt like homework." },
-        ],
-      },
-      {
-        era: "Where it started",
-        blurb: "Childhood, and the reason any of the rest happened.",
-        books: [
-          { title: "Famous Five · Secret Seven", author: "Enid Blyton", icon: "compass",
-            note: "Small adventurers solving things adults couldn't. I was completely sold." },
-        ],
-      },
-      {
-        era: "The teenage detectives",
-        blurb: "A long stretch of wanting to work out the answer first.",
-        books: [
-          { title: "The Hardy Boys", author: "Franklin W. Dixon", icon: "torch",
-            note: "A mystery a week, and I never minded knowing they'd solve it." },
-          { title: "Tintin", author: "Hergé", icon: "rocket",
-            note: "Read for the story, stayed for panels I still remember frame by frame." },
-          { title: "Sherlock Holmes", author: "Arthur Conan Doyle", icon: "magnifier",
-            note: "Where I learned that noticing is a skill, not a talent." },
-        ],
-      },
-      {
-        era: "Closer to home",
-        blurb: "The last few years, mostly Indian authors.",
-        books: [
-          { title: "The Shiva Trilogy", author: "Amish Tripathi", icon: "trident",
-            note: "Mythology rebuilt as a thriller, with the gods made stubbornly human." },
-          { title: "The Ravana retelling", author: "Anand Neelakantan", icon: "lamp",
-            note: "The Ramayana from the losing side — which turns out to be the interesting one." },
-          { title: "Four novels", author: "Chetan Bhagat", icon: "pen",
-            note: "Easy company on a long flight, and sharper about India than they let on." },
-        ],
-      },
-      {
-        era: "Quieter shelves",
-        blurb: "Short books that outstayed their page count.",
-        books: [
-          { title: "The Alchemist", author: "Paulo Coelho", icon: "sun",
-            note: "Slim, deceptively simple, and it lands differently each time you pick it up." },
-          { title: "Ikigai", author: "García & Miralles", icon: "enso",
-            note: "A small book about why you get up in the morning." },
-        ],
-      },
-    ],
+    shelf: {
+      blurb: "Here I want the opposite of technical. Give me a world with its own weather and I'll stay in it.",
+      groups: [
+        {
+          era: "Read and re-read",
+          blurb: "The ones I go back to rather than finish.",
+          books: [
+            { title: "Harry Potter", author: "J.K. Rowling", icon: "wand",
+              note: "Four or five times through, and the castle still feels like somewhere I've lived." },
+            { title: "The Lord of the Rings", author: "J.R.R. Tolkien", icon: "ring",
+              note: "Languages, maps, genealogies. A world built so far past the plot that the plot feels discovered rather than written." },
+            { title: "The Inheritance Cycle", author: "Christopher Paolini", icon: "sword",
+              note: "Four thick books I took at a run. Dragons with rules, which is what makes them believable." },
+          ],
+        },
+        {
+          era: "Where it started",
+          blurb: "Childhood, and the reason any of the rest happened.",
+          books: [
+            { title: "Famous Five · Secret Seven", author: "Enid Blyton", icon: "compass",
+              note: "Small adventurers solving what adults couldn't. I was completely sold." },
+          ],
+        },
+        {
+          era: "The teenage detectives",
+          blurb: "A long stretch of wanting to work out the answer first.",
+          books: [
+            { title: "The Hardy Boys", author: "Franklin W. Dixon", icon: "torch",
+              note: "A mystery a week, and I never minded knowing they'd solve it." },
+            { title: "Tintin", author: "Hergé", icon: "rocket",
+              note: "Read for the story, stayed for panels I could still redraw from memory." },
+            { title: "Sherlock Holmes", author: "Arthur Conan Doyle", icon: "magnifier",
+              note: "Where I learned that noticing is a skill, not a talent." },
+          ],
+        },
+        {
+          era: "Puzzle boxes",
+          blurb: "The one shelf where both appetites meet.",
+          books: [
+            { title: "The Robert Langdon books", author: "Dan Brown", icon: "key",
+              works: "The Da Vinci Code · Angels & Demons · The Lost Symbol",
+              note: "Cathedrals, cryptography and a cliffhanger every four pages. I have never once put one down early." },
+          ],
+        },
+        {
+          era: "Closer to home",
+          blurb: "The last few years, mostly Indian authors.",
+          books: [
+            { title: "The Shiva Trilogy", author: "Amish Tripathi", icon: "trident",
+              note: "Mythology rebuilt as a thriller, with the gods left stubbornly human." },
+            { title: "The Ravana retelling", author: "Anand Neelakantan", icon: "lamp",
+              note: "The Ramayana from the losing side, which turns out to be the more interesting one." },
+            { title: "Four novels", author: "Chetan Bhagat", icon: "pen",
+              works: "Five Point Someone · 2 States · The 3 Mistakes of My Life · Half Girlfriend",
+              note: "Campus, cricket and marrying across a language line. He writes an India I recognise." },
+          ],
+        },
+        {
+          era: "Quieter shelves",
+          blurb: "Short books that outstayed their page count.",
+          books: [
+            { title: "The Alchemist", author: "Paulo Coelho", icon: "sun",
+              note: "Slim, deceptively simple, and it lands differently every time I pick it up." },
+            { title: "Ikigai", author: "García & Miralles", icon: "enso",
+              note: "A small book about why you get up in the morning." },
+          ],
+        },
+      ],
+    },
   },
 
   /* =================================================================

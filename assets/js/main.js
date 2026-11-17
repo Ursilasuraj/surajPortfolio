@@ -352,7 +352,7 @@ function renderExperience(){
     const open = i < 2;                              // first two roles start expanded
     const hasBody = e.bullets.length > 0;
     return `<div class="xp ${i % 2 ? "right" : "left"} reveal">
-      <div class="xp-node${monogram(e.logo).length > 2 ? " sm" : ""}" aria-hidden="true"><span>${esc(monogram(e.logo))}</span></div>
+      <div class="xp-node${/present/i.test(e.period) ? " now" : ""}${monogram(e.logo).length > 2 ? " sm" : ""}" aria-hidden="true"><span>${esc(monogram(e.logo))}</span></div>
       <div class="xp-year" aria-hidden="true">${startYear(e.period)}</div>
       <div class="xp-card${open ? " open" : ""}">
         <div class="xp-head">
@@ -366,6 +366,7 @@ function renderExperience(){
         </div>
         <div class="meta">${esc(e.company)} · ${esc(e.period)} · ${esc(e.location)}</div>
         ${e.headline ? `<p class="xp-headline">${esc(e.headline)}</p>` : ""}
+        ${e.scene && typeof scene === "function" ? scene(e.scene) : ""}
         ${hasBody ? `<div class="xp-body" id="${id}"><ul>${
           e.bullets.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}
       </div></div>`;
@@ -380,18 +381,42 @@ function renderExperience(){
   });
 
   observeReveal();
+  if (typeof observeScenes === "function"){
+    observeScenes();
+    trackTimeline(document.getElementById("list"));
+  }
 }
 
-/* ---- Education ---- */
+/* ---- Education ----
+   Each degree is a card: animated scene + key facts on one side, the
+   story (focus tags, stand-out project, thesis, extras) on the other.
+   Older entries that only have `details` still render as a paragraph. */
 function renderEducation(){
-  document.getElementById("list").innerHTML = SITE.education.map(e =>
-    `<div class="card edu reveal">
-      <div class="edu-head">${logoThumb(e.logo)}
-        <div><h3>${esc(e.degree)}</h3>
-        <div class="meta muted">${esc(e.school)} · ${esc(e.period)}</div></div></div>
-      ${e.image ? img(e.image, "", "edu-img") : ""}
-      <p>${esc(e.details)}</p></div>`).join("");
+  document.getElementById("list").innerHTML = SITE.education.map(e => {
+    const facts = [e.period, e.grade].filter(Boolean).map(f => `<li>${esc(f)}</li>`).join("");
+    return `<article class="card edu reveal">
+      <div class="edu-side">
+        ${e.scene && typeof scene === "function" ? scene(e.scene) : ""}
+        ${facts ? `<ul class="edu-facts">${facts}</ul>` : ""}
+      </div>
+      <div class="edu-main">
+        <div class="edu-head">${logoThumb(e.logo)}
+          <div><h3>${esc(e.degree)}</h3>
+          <div class="meta muted">${esc(e.school)}</div></div></div>
+        ${e.summary ? `<p class="edu-summary">${esc(e.summary)}</p>` : ""}
+        ${e.details ? `<p>${esc(e.details)}</p>` : ""}
+        ${e.focus?.length ? `<h4 class="edu-label">Focus</h4>
+          <ul class="tags">${e.focus.map(f => `<li class="tag">${esc(f)}</li>`).join("")}</ul>` : ""}
+        ${e.project ? `<div class="edu-project"><h4 class="edu-label">Stand-out project</h4>
+          <strong>${esc(e.project.title)}</strong><p>${esc(e.project.text)}</p></div>` : ""}
+        ${e.thesis ? `<p class="edu-thesis">${esc(e.thesis.text)}${e.thesis.href
+          ? ` <a href="${esc(e.thesis.href)}">See it in Experience →</a>` : ""}</p>` : ""}
+        ${e.extras?.length ? `<h4 class="edu-label">Beyond the syllabus</h4>
+          <ul class="edu-extras">${e.extras.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+      </div></article>`;
+  }).join("");
   observeReveal();
+  if (typeof observeScenes === "function") observeScenes();
 }
 
 /* ---- Skills (proficiency tiers, not percentages) ---- */

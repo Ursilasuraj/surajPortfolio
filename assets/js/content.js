@@ -102,6 +102,7 @@ const SITE = {
       role: "Product Manager — Solution Manager, Measurement & Calibration (MICROSAR Classic)",
       company: "VECTOR Informatik · Full-time",
       logo: "V",
+      scene: "calibration",
       headline: "Steering the strategy of a flagship measurement & calibration solution",
       period: "Dec 2024 – Present",
       location: "Stuttgart, Germany · On-site",
@@ -120,6 +121,7 @@ const SITE = {
       logo: "ZF",
       headline: "Architected the cloud brain that streams maps to self-driving cars",
       period: "May 2022 – Nov 2024",
+      scene: "cloud-map",
       location: "Friedrichshafen, Germany",
       bullets: [
         "Architected the cloud map-storage system that streams HD-map data to production vehicles — data model, protocols and API contracts, end to end — supporting delivery footprints from a 500 m to 2 km radius around the vehicle, or along a trajectory computed on the fly, so vehicles receive exactly the map data they need.",
@@ -135,6 +137,7 @@ const SITE = {
       logo: "ZF",
       headline: "Owned the map components that help autonomous cars find their way",
       period: "May 2020 – Apr 2022",
+      scene: "v2x",
       location: "Friedrichshafen, Germany",
       bullets: [
         "Owned the map software components behind autonomous vehicle localisation and navigation — architecture, interfaces and delivery into the target system.",
@@ -149,6 +152,7 @@ const SITE = {
       logo: "ZF",
       headline: "Turned raw sensor data into HD-maps for autonomous driving",
       period: "May 2018 – Apr 2020",
+      scene: "lidar",
       location: "Friedrichshafen, Germany",
       bullets: [
         "Built software functions in Python and C++ that turned raw sensor data into HD-Map content for autonomous driving.",
@@ -413,24 +417,52 @@ const SITE = {
   /* =================================================================
      EDUCATION
      ================================================================= */
+  /* Fields: degree, school, period, logo — as before, plus
+       scene    Animated illustration (see assets/js/scenes.js)
+       summary  One line: what the degree was really about
+       focus    Subjects, shown as tags
+       project  { title, text } — the stand-out project
+       thesis   { text, href } — optional link onward
+       extras   Short list: clubs, roles, side activities
+     TODO (optional): thesis title, awards or scholarships, and the
+     courses you'd most want a hiring manager to notice. */
   education: [
     {
       degree: "MSc, Electrical Engineering & Information Technology",
       school: "Darmstadt University of Applied Sciences",
-      period: "2015 – 2017 · Grade 1.7",
+      period: "2015 – 2017",
+      grade: "Grade 1.7",
       logo: "h_da",
-      icon: "🎓",
-      image: "",
-      details: "Advanced programming, Android/Java development, intelligent automation, task planning for mobile robots, advanced robotics, telemanipulators, feedback control & mechatronics. Led a six-person Augmented Reality project: smart glasses detecting industrial objects and surfacing database info, with text detection, virtual buttons and speech recognition. Focus on Industry 4.0 and IoT.",
+      scene: "robot-arm",
+      summary: "Robotics, intelligent automation and Industry 4.0 / IoT.",
+      focus: ["Advanced robotics", "Task planning for mobile robots", "Telemanipulators",
+              "Intelligent automation", "Feedback control & mechatronics",
+              "Advanced programming", "Android / Java", "Industry 4.0 & IoT"],
+      project: {
+        title: "Augmented Reality for industry — team lead",
+        text: "Led a six-person team building smart-glasses software that recognises industrial objects and surfaces their database information on the spot, with text detection, virtual buttons and speech recognition.",
+      },
+      thesis: {
+        text: "Master thesis at ABB: an IEC 61131-3 Structured Text parser and PLC emulation in RobotStudio.",
+        href: "experience.html",
+      },
     },
     {
       degree: "BE, Instrumentation Technology",
       school: "RNS Institute of Technology, India",
-      period: "2009 – 2013 · Grade 82%",
+      period: "2009 – 2013",
+      grade: "Grade 82%",
       logo: "RNS",
-      icon: "⚙️",
-      image: "",
-      details: "Core: C, C++, analytical/process/biomedical/aircraft/optical instrumentation, robotics, signals & systems, mobile communication, automation in process control, advanced & process control systems, digital image processing, microcontrollers. Final-year project at Honeywell on Building Management Systems. Coordinated college fests, robotics club member, departmental newsletter editor.",
+      scene: "gauge",
+      summary: "Measuring the physical world, and controlling it.",
+      focus: ["Process & analytical instrumentation", "Biomedical, aircraft & optical instrumentation",
+              "Advanced & process control systems", "Automation in process control", "Signals & systems",
+              "Digital image processing", "Microcontrollers", "Robotics", "Mobile communication", "C / C++"],
+      project: {
+        title: "Building Management System at Honeywell",
+        text: "Final-year project: implemented and integrated a building automation system — sensors, actuators and controllers, plus the operator graphics.",
+      },
+      extras: ["Coordinated college fests", "Robotics club member", "Departmental newsletter editor"],
     },
   ],
 

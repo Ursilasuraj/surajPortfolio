@@ -352,6 +352,120 @@ footer a:hover { text-decoration:underline; text-underline-offset:3px; }
 noscript .noscript-note { display:block; background:var(--surface); border:1px solid var(--border);
   border-left:2px solid var(--accent); border-radius:var(--radius); padding:14px 20px; margin:18px 0; }
 
+/* ---------- Animated scenes (assets/js/scenes.js) ----------
+   Still by default — that still frame is what reduced-motion visitors
+   see. Animations exist only under .play, which JS sets while a scene is
+   on screen. Only transform/opacity/stroke-dashoffset move. */
+.scene { margin:18px 0 0; color:var(--accent); }
+.scene svg { display:block; width:100%; height:auto; background:linear-gradient(150deg,var(--bg),var(--border));
+  border:1px solid var(--border); border-radius:3px; }
+.scene figcaption { font-size:.8rem; color:var(--muted); margin-top:8px; line-height:1.45; }
+.sc-txt { fill:currentColor; font:600 10px var(--font-body); letter-spacing:.04em; }
+.sc-sm { font-size:8.5px; font-weight:500; opacity:.8; }
+.scene svg * { transform-box:view-box; }
+
+@keyframes sc-dash  { to { stroke-dashoffset:-14; } }
+@keyframes sc-blink { 50% { opacity:.15; } }
+@keyframes sc-fade  { to { opacity:0; } }
+
+/* calibration */
+.sc-knob { transform:translateX(100px); }
+.sc-amp  { transform-origin:0 66px; transform:scaleY(.5); }
+.play .sc-flow  { animation:sc-dash .8s linear infinite; }
+.play .sc-blink { animation:sc-blink 1s steps(1) infinite; }
+.play .sc-wave  { animation:sc-wave 1.2s linear infinite; }
+.play .sc-amp   { animation:sc-amp 6s ease-in-out infinite; }
+.play .sc-knob  { animation:sc-knob 6s ease-in-out infinite; }
+@keyframes sc-wave { from { transform:none; } to { transform:translateX(-40px); } }
+@keyframes sc-amp  { 0%,35% { transform:none; } 50%,85% { transform:scaleY(.5); } 100% { transform:none; } }
+@keyframes sc-knob { 0%,35% { transform:none; } 50%,85% { transform:translateX(100px); } 100% { transform:none; } }
+
+/* cloud-map */
+.sc-tile { opacity:.12; } .sc-tile.lit { opacity:.5; }
+.sc-car  { transform:translateX(130px); }
+.sc-ring { transform-origin:0 99px; }
+.play .sc-tile { animation:sc-tile 6s linear infinite both; }
+.play .sc-car  { animation:sc-car 6s linear infinite; }
+.play .sc-ring { animation:sc-ring 1.6s ease-in-out infinite; }
+@keyframes sc-tile { 0% { opacity:.12; } 6%,30% { opacity:.55; } 42%,100% { opacity:.12; } }
+@keyframes sc-car  { from { transform:translateX(40px); } to { transform:translateX(280px); } }
+@keyframes sc-ring { 50% { transform:scale(.8); } }
+
+/* v2x */
+.sc-v2x-car { transform:translateX(178px); }
+.sc-red { opacity:.2; }
+.sc-wave1 { opacity:0; transform-origin:252px 20px; }
+.play .sc-v2x-car { animation:sc-v2x 7s ease-in-out infinite; }
+.play .sc-red   { animation:sc-red 7s steps(1) infinite; }
+.play .sc-green { animation:sc-green 7s steps(1) infinite; }
+.play .sc-wave1 { animation:sc-ping 1.6s ease-out infinite; } .play .sc-wave1.d2 { animation-delay:.8s; }
+.play .sc-link, .play .sc-link-lbl { animation:sc-link 7s linear infinite; }
+.play .sc-link { animation:sc-link 7s linear infinite, sc-dash .8s linear infinite; }
+@keyframes sc-v2x  { 0% { transform:translateX(-20px); } 35%,62% { transform:translateX(178px); } 100% { transform:translateX(345px); } }
+@keyframes sc-red   { 0% { opacity:1; } 55% { opacity:.2; } }
+@keyframes sc-green { 0% { opacity:.2; } 55% { opacity:1; } }
+@keyframes sc-ping  { from { opacity:.8; transform:scale(.3); } to { opacity:0; transform:scale(1.6); } }
+@keyframes sc-link  { 0%,33% { opacity:0; } 38%,60% { opacity:1; } 66%,100% { opacity:0; } }
+
+/* lidar */
+.sc-sweep { transform-origin:70px 100px; opacity:0; }
+.sc-mid { opacity:.6; }
+.play .sc-sweep { animation:sc-spin 2s linear infinite; opacity:.14; }
+.play .sc-pt    { animation:sc-pt 6s ease-out infinite both; }
+.play .sc-draw  { animation:sc-draw 6s ease-in-out infinite; }
+.play .sc-mid   { animation:sc-mid 6s ease-in-out infinite; }
+@keyframes sc-spin { to { transform:rotate(360deg); } }
+@keyframes sc-pt   { 0% { opacity:0; } 6%,70% { opacity:1; } 92%,100% { opacity:0; } }
+.sc-draw { stroke-dasharray:1; stroke-dashoffset:0; }
+@keyframes sc-draw { 0%,30% { stroke-dashoffset:1; } 60%,92% { stroke-dashoffset:0; } 100% { stroke-dashoffset:1; } }
+@keyframes sc-mid  { 0%,50% { opacity:0; } 65%,92% { opacity:.6; } 100% { opacity:0; } }
+
+/* robot-arm */
+.sc-upper { transform-origin:65px 106px; transform:rotate(30deg); }
+.sc-fore  { transform-origin:65px 56px;  transform:rotate(2deg); }
+.play .sc-upper   { animation:sc-upper 5s ease-in-out infinite; }
+.play .sc-fore    { animation:sc-fore 5s ease-in-out infinite; }
+.play .sc-bracket, .play .sc-sight, .play .sc-tag { animation:sc-seen 5s ease-in-out infinite; }
+@keyframes sc-upper { 0%,15% { transform:none; } 45%,65% { transform:rotate(30deg); } 95%,100% { transform:none; } }
+@keyframes sc-fore  { 0%,15% { transform:rotate(-15deg); } 45%,65% { transform:rotate(2deg); } 95%,100% { transform:rotate(-15deg); } }
+@keyframes sc-seen  { 0% { opacity:.15; } 12%,70% { opacity:1; } 90%,100% { opacity:.15; } }
+
+/* gauge */
+.sc-needle { transform-origin:90px 104px; transform:rotate(45deg); }
+.play .sc-needle { animation:sc-needle 5s ease-in-out infinite; }
+.sc-gauge.play .sc-draw { animation-duration:5s; }
+@keyframes sc-needle { 0% { transform:rotate(-80deg); } 25% { transform:rotate(75deg); } 38% { transform:rotate(30deg); }
+  50% { transform:rotate(52deg); } 60%,90% { transform:rotate(45deg); } 100% { transform:rotate(-80deg); } }
+
+/* Experience timeline progress: the line fills as you scroll (--p, set
+   in trackTimeline), nodes light up when it reaches them. */
+.xp-timeline::after { content:""; position:absolute; left:50%; top:0; bottom:0; width:2px;
+  transform:translateX(-50%) scaleY(var(--p,0)); transform-origin:top; background:var(--accent); z-index:1; }
+.xp-node { transition:background .4s, color .4s; }
+.xp-node.reached { background:var(--accent); color:var(--on-accent); }
+.xp-node.now::after { content:""; position:absolute; inset:-1px; border-radius:50%; border:2px solid var(--accent);
+  animation:sc-ping-node 2.2s ease-out infinite; }
+@keyframes sc-ping-node { from { opacity:.8; transform:scale(1); } to { opacity:0; transform:scale(1.7); } }
+.xp-card .scene { max-width:520px; }
+
+/* ---------- Education ---------- */
+.edu-list { display:grid; gap:34px; }
+.edu { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:34px; align-items:start; }
+.edu .scene { margin:0; }
+.edu-facts { list-style:none; padding:0; margin:16px 0 0; display:flex; flex-wrap:wrap; gap:8px; }
+.edu-facts li { font-family:var(--font-display); font-weight:600; color:var(--accent);
+  border:1px solid var(--accent); border-radius:2px; padding:4px 12px; font-size:.95rem; }
+.edu-summary { font-family:var(--font-display); font-style:italic; color:var(--accent); font-size:1.05rem; margin:6px 0 0; }
+.edu-label { margin:22px 0 0; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+.edu .tags { margin-top:10px; }
+.edu-project { margin-top:4px; }
+.edu-project strong { display:block; margin-top:10px; padding-left:14px; border-left:2px solid var(--accent); }
+.edu-project p { margin:6px 0 0; padding-left:16px; }
+.edu-thesis { margin:20px 0 0; padding:12px 16px; background:var(--bg); border:1px solid var(--border); border-radius:3px; font-size:.94rem; }
+.edu-thesis a { color:var(--accent); font-weight:600; white-space:nowrap; }
+.edu-extras { margin:10px 0 0; padding-left:20px; }
+.edu-extras li { margin-bottom:.3em; }
+
 /* ---------- Responsive ---------- */
 @media (max-width:780px){
   .wrap { padding: 0 20px; }
@@ -367,11 +481,12 @@ noscript .noscript-note { display:block; background:var(--surface); border:1px s
   .fav-grid { grid-template-columns:1fr; gap:26px; }
   .shelf-group { margin-bottom:38px; padding-bottom:38px; }
 
-  .xp-timeline::before { left:18px; }
+  .xp-timeline::before, .xp-timeline::after { left:18px; }
   .xp, .xp.left, .xp.right { width:100%; left:0; padding:0 0 34px 52px; }
   .xp.left .xp-node, .xp.right .xp-node { left:-3px; right:auto; }
   .xp.left .xp-year, .xp.right .xp-year { left:52px; right:auto; top:-20px; }
   .contact-card { padding:34px 22px; }
+  .edu { grid-template-columns:1fr; gap:22px; }
 }
 
 /* ---------- Reduced motion ----------
@@ -384,5 +499,6 @@ noscript .noscript-note { display:block; background:var(--surface); border:1px s
   }
   .js .reveal { opacity:1; transform:none; }
   .card:hover, .xp-card:hover { transform:none; }
+  .xp-node.now::after { display:none; }
   .hobby:hover .hobby-img, .gallery-item:hover img { transform:none; }
 }

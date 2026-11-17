@@ -33,6 +33,20 @@ Anything marked `TODO` is a placeholder — replace it with your real text.
 above it showing every field. Until you fill it in, `patents.html` shows a
 "coming soon" note rather than an empty page.
 
+### Animated scenes
+
+Experience roles and education entries can carry an animated illustration:
+set `scene: "<key>"` in `content.js`. Available keys: `calibration`,
+`cloud-map`, `v2x`, `lidar`, `robot-arm`, `gauge` — all defined in
+`assets/js/scenes.js` (inline SVG + CSS keyframes, no libraries). They only
+animate while on screen and stay still for visitors who prefer reduced motion.
+
+### Education fields
+
+Besides `degree`, `school`, `period`, `logo`: `grade`, `summary`, `focus`
+(list of subjects, shown as tags), `project` (`{ title, text }`), `thesis`
+(`{ text, href }`) and `extras` (list). All optional.
+
 ### Add a CV
 
 Drop a PDF at `assets/cv.pdf` and set `cvUrl: "assets/cv.pdf"` in `content.js`.
@@ -50,7 +64,7 @@ but a local server matches production more closely.)
 ## Host on GitHub Pages
 
 `.github/workflows/static.yml` deploys automatically on every push to
-**`master`**. Repo → Settings → Pages → Source: **GitHub Actions**.
+**`portfolioProfileReview`** (see the comment in the workflow before changing it). Repo → Settings → Pages → Source: **GitHub Actions**.
 
 The site is live at <https://surajps.github.io/Portfolio_SPSK/>.
 
@@ -65,5 +79,6 @@ The site is live at <https://surajps.github.io/Portfolio_SPSK/>.
 | `patents.html` | Patents |
 | `assets/js/content.js` | **All the content** |
 | `assets/js/main.js` | Rendering, theme, nav, lightbox |
+| `assets/js/scenes.js` | Animated SVG scenes (Experience & Education only) |
 | `assets/css/style.css` | Styling, light + dark themes |
 | `assets/favicon.svg` | Browser-tab icon |
